@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposition — Rafael × Baptiste Fort</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'bk': '#1a1a1a',
+                        'wh': '#fafaf8',
+                        'gold': '#C9A962',
+                        'gold-l': '#E8D5A3',
+                        'blu': '#4A6FA5',
+                        'red': '#e53935',
+                        'grn': '#43a047',
+                        'gry': '#f0f0ec',
+                    },
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    boxShadow: {
+                        'h': '5px 5px 0px 0px #1a1a1a',
+                        'h-sm': '3px 3px 0px 0px #1a1a1a',
+                        'h-gold': '5px 5px 0px 0px #C9A962',
+                        'h-lg': '8px 8px 0px 0px #1a1a1a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { cursor: default; }
+        a, button { cursor: pointer; }
+        ::selection { background: #C9A962; color: #1a1a1a; }
+        body { background: #fafaf8; overflow-x: hidden; }
+        html.lenis { height: auto; }
+
+        .brd { border: 2.5px solid #1a1a1a; }
+        .brd-b { border-bottom: 2.5px solid #1a1a1a; }
+        .brd-t { border-top: 2.5px solid #1a1a1a; }
+        .brd-gold { border: 2.5px solid #C9A962; }
+
+        .brut {
+            background: white; border: 2.5px solid #1a1a1a;
+            box-shadow: 5px 5px 0px 0px #1a1a1a;
+            transition: transform 0.25s cubic-bezier(.4,0,.2,1), box-shadow 0.25s cubic-bezier(.4,0,.2,1);
+        }
+        .brut:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0px 0px #1a1a1a;
+        }
+        .brut-gold {
+            background: white; border: 2.5px solid #C9A962;
+            box-shadow: 5px 5px 0px 0px #C9A962;
+            transition: transform 0.25s cubic-bezier(.4,0,.2,1), box-shadow 0.25s cubic-bezier(.4,0,.2,1);
+        }
+        .brut-gold:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0px 0px #C9A962;
+        }
+
+        .tag {
+            display: inline-block; padding: 4px 14px;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+
+        .marquee-wrap { overflow: hidden; white-space: nowrap; }
+        .marquee-inner {
+            display: inline-block;
+            animation: marquee 50s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .float-y { animation: floatY 3s ease-in-out infinite; }
+        @keyframes floatY {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .pulse-border {
+            animation: pulseBrd 2s ease-in-out infinite;
+        }
+        @keyframes pulseBrd {
+            0%,100% { box-shadow: 5px 5px 0px 0px #C9A962; }
+            50% { box-shadow: 5px 5px 0px 0px #E8D5A3, 0 0 20px rgba(201,169,98,0.15); }
+        }
+
+        .reveal { opacity: 0; transform: translateY(40px); }
+
+        .number-badge {
+            width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+            background: #1a1a1a; color: #C9A962; font-family: 'Syne', sans-serif;
+            font-weight: 800; font-size: 1.1rem; border-radius: 0;
+            flex-shrink: 0;
+        }
+
+        .wa-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #25D366; color: white; border: 2.5px solid #1a1a1a;
+            box-shadow: 5px 5px 0px 0px #1a1a1a; padding: 14px 28px;
+            font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 0.95rem;
+            transition: all 0.25s cubic-bezier(.4,0,.2,1);
+            text-decoration: none;
+        }
+        .wa-btn:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0px 0px #1a1a1a;
+        }
+        .wa-btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px 0px #1a1a1a;
+        }
+
+        .wa-svg { width: 22px; height: 22px; fill: white; flex-shrink: 0; }
+
+        .timeline-line {
+            position: absolute; left: 23px; top: 48px; bottom: 0; width: 2.5px; background: #C9A962;
+        }
+
+        .mail-card {
+            background: white; border: 2.5px solid #1a1a1a; padding: 2rem;
+            box-shadow: 5px 5px 0px 0px #1a1a1a; position: relative;
+            transition: all 0.3s ease;
+        }
+        .mail-card:hover { transform: translateY(-4px); }
+
+        .state-pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 16px; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem; font-weight: 600; border: 2px solid #1a1a1a;
+        }
+        .state-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        .confetti-piece {
+            position: fixed; width: 10px; height: 10px; z-index: 9999; pointer-events: none;
+        }
+
+        .toc-link {
+            display: block; padding: 6px 0; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem; color: #1a1a1a; opacity: 0.6;
+            transition: all 0.2s ease; text-decoration: none;
+        }
+        .toc-link:hover { opacity: 1; padding-left: 8px; color: #C9A962; }
+
+        @media (max-width: 768px) {
+            .number-badge { width: 36px; height: 36px; font-size: 0.85rem; }
+            .timeline-line { left: 17px; }
+        }
+
+        .easter-glow {
+            animation: easterGlow 0.6s ease-out;
+        }
+        @keyframes easterGlow {
+            0% { box-shadow: 0 0 0 0 rgba(201,169,98,0.6); }
+            100% { box-shadow: 0 0 40px 20px rgba(201,169,98,0); }
+        }
+    </style>
+</head>
+<body class="text-bk">
+
+<!-- ============ NAV ============ -->
+<nav id="nav" class="fixed top-0 w-full z-50 bg-white brd-b flex justify-between items-stretch">
+    <div id="logo-click" class="px-5 py-3.5 bg-bk text-white font-display font-bold text-lg tracking-tight flex items-center gap-1 select-none">
+        BAPTISTE<span class="text-gold">/</span>FORT
+    </div>
+    <div class="hidden md:flex flex-1 items-center overflow-hidden bg-gold border-l-[2.5px] border-r-[2.5px] border-bk">
+        <div class="marquee-wrap w-full font-mono font-semibold text-[0.65rem] text-bk">
+            <div class="marquee-inner">
+                &nbsp;&nbsp;PROPOSITION&nbsp;&nbsp;///&nbsp;&nbsp;RAFAEL&nbsp;&nbsp;///&nbsp;&nbsp;AIRTABLE&nbsp;&nbsp;///&nbsp;&nbsp;MAKE&nbsp;&nbsp;///&nbsp;&nbsp;N8N&nbsp;&nbsp;///&nbsp;&nbsp;INTERFACES&nbsp;&nbsp;///&nbsp;&nbsp;AUTOMATIONS&nbsp;&nbsp;///&nbsp;&nbsp;VUES&nbsp;&nbsp;///&nbsp;&nbsp;KANBAN&nbsp;&nbsp;///&nbsp;&nbsp;CALENDRIER&nbsp;&nbsp;///&nbsp;&nbsp;FORMULAIRES&nbsp;&nbsp;///&nbsp;&nbsp;CONNECTEURS&nbsp;&nbsp;///&nbsp;&nbsp;WEBHOOKS&nbsp;&nbsp;///&nbsp;&nbsp;API&nbsp;&nbsp;///&nbsp;&nbsp;PROPOSITION&nbsp;&nbsp;///&nbsp;&nbsp;RAFAEL&nbsp;&nbsp;///&nbsp;&nbsp;AIRTABLE&nbsp;&nbsp;///&nbsp;&nbsp;MAKE&nbsp;&nbsp;///&nbsp;&nbsp;N8N&nbsp;&nbsp;///&nbsp;&nbsp;INTERFACES&nbsp;&nbsp;///&nbsp;&nbsp;AUTOMATIONS&nbsp;&nbsp;///&nbsp;&nbsp;VUES&nbsp;&nbsp;///&nbsp;&nbsp;KANBAN&nbsp;&nbsp;///&nbsp;&nbsp;CALENDRIER&nbsp;&nbsp;///&nbsp;&nbsp;FORMULAIRES&nbsp;&nbsp;///&nbsp;&nbsp;CONNECTEURS&nbsp;&nbsp;///&nbsp;&nbsp;WEBHOOKS&nbsp;&nbsp;///&nbsp;&nbsp;API&nbsp;&nbsp;///&nbsp;&nbsp;
+            </div>
+        </div>
+    </div>
+    <div class="flex items-stretch">
+        <a href="#sommaire" class="px-5 py-3.5 font-mono font-semibold text-[0.65rem] tracking-wider hover:bg-bk hover:text-white transition-colors flex items-center border-r-[2.5px] border-bk">SOMMAIRE</a>
+        <a href="https://wa.me/33626105640" target="_blank" class="px-5 py-3.5 bg-[#25D366] hover:bg-[#1da851] transition-colors flex items-center gap-2 font-mono font-semibold text-[0.65rem] text-white tracking-wider">
+            <svg class="wa-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            CONTACT
+        </a>
+    </div>
+</nav>
+
+<!-- ============ SECTION 1 — HERO ============ -->
+<header id="s1" class="pt-24 md:pt-28">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="brut p-8 md:p-14 relative">
+            <div class="absolute -top-4 -left-1 md:-left-3">
+                <span class="tag bg-gold text-bk">Proposition</span>
+            </div>
+            <div class="absolute -top-4 right-4 md:-right-3">
+                <span class="tag bg-bk text-gold">Fevrier 2026</span>
+            </div>
+            <h1 class="font-display font-black text-4xl sm:text-5xl md:text-7xl leading-[1.05] mb-8 mt-4 reveal">
+                Build Airtable<br>
+                <span class="text-gold">& Automatisations</span><br>
+                <span class="text-bk/40 text-3xl sm:text-4xl md:text-5xl">Pour ton agence</span>
+            </h1>
+            <p class="text-base md:text-lg font-sans max-w-2xl text-bk/70 mb-6 reveal">
+                Hello Rafael, deja merci pour le call d'hier et la presentation du projet que tu m'as envoye sur Notion. C'etait clair et ca m'a permis de comprendre comment tu fonctionnes avec tes clients, ce que tu leur livres, et surtout ce qui te prend du temps au quotidien.
+            </p>
+            <p class="text-base md:text-lg font-sans max-w-2xl text-bk/70 mb-10 reveal">
+                J'ai pris le temps de poser tout ca a plat. L'idee c'est que tu lises ce document et que tu comprennes exactement ce que je peux apporter a ton agence, comment je travaille, et pourquoi ca peut tourner entre nous sur le long terme. Je t'explique tout, section par section.
+            </p>
+            <div class="flex flex-wrap gap-3 reveal">
+                <span class="tag bg-bk text-white">Airtable</span>
+                <span class="tag bg-bk text-white">Make</span>
+                <span class="tag bg-bk text-white">n8n</span>
+                <span class="tag bg-bk text-white">Interfaces</span>
+                <span class="tag bg-bk text-white">Automations</span>
+                <span class="tag bg-bk text-white">Webhooks</span>
+                <span class="tag bg-bk text-white">API</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ============ SECTION 2 — SOMMAIRE ============ -->
+<section id="sommaire" class="max-w-6xl mx-auto px-4 md:px-8 pb-20">
+    <div class="grid md:grid-cols-3 gap-6">
+        <div class="brut p-6 md:col-span-1">
+            <h2 class="font-display font-bold text-xl mb-4">Sommaire</h2>
+            <p class="text-sm text-bk/60 mb-6 font-mono">25 sections detaillees</p>
+            <div class="space-y-1 max-h-[400px] overflow-y-auto pr-2" id="toc-container">
+            </div>
+        </div>
+        <div class="md:col-span-2 grid sm:grid-cols-3 gap-4">
+            <div class="brut p-6 text-center">
+                <div class="font-display font-black text-4xl text-gold mb-2">5j</div>
+                <div class="font-mono text-[0.65rem] tracking-wider uppercase text-bk/60">Par Projet</div>
+            </div>
+            <div class="brut p-6 text-center">
+                <div class="font-display font-black text-4xl text-gold mb-2">2+3</div>
+                <div class="font-mono text-[0.65rem] tracking-wider uppercase text-bk/60">Build + Automations</div>
+            </div>
+            <div class="brut p-6 text-center">
+                <div class="font-display font-black text-4xl text-gold mb-2">&infin;</div>
+                <div class="font-mono text-[0.65rem] tracking-wider uppercase text-bk/60">Types de projets</div>
+            </div>
+            <div class="bg-bk text-white brd p-6 sm:col-span-3">
+                <div class="flex items-center gap-4 flex-wrap">
+                    <span class="tag bg-gold text-bk">Build Airtable</span>
+                    <span class="text-white/30 font-mono">+</span>
+                    <span class="tag bg-gold text-bk">Automatisations</span>
+                    <span class="text-white/30 font-mono">+</span>
+                    <span class="tag bg-gold text-bk">Tests</span>
+                    <span class="text-white/30 font-mono">=</span>
+                    <span class="font-display font-bold text-gold text-lg">5 Jours. Point.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 3 — SITUATION ============ -->
+<section id="s3" class="brd-t brd-b bg-white">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">01</div>
+            <div>
+                <span class="tag bg-bk text-gold mb-2">Constat</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Comment ca se passe aujourd'hui</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
+            <p>Aujourd'hui, tu as une agence qui propose a ses clients des solutions Airtable avec des automatisations. Tes clients viennent te voir parce qu'ils ont besoin de structurer leur activite. Ils veulent un CRM, un suivi de prospection, un pipeline commercial, un calendrier editorial, un systeme de relances, un suivi de projets, bref, des outils qui leur permettent de bosser sans perdre du temps sur des taches repetitives.</p>
+            <p>Le probleme, c'est que chaque projet prend du temps. Pas parce que c'est complique dans l'absolu, mais parce que ca demande de la rigueur. Il faut poser la base Airtable, creer les bonnes tables, les bons champs, les bonnes relations entre les tables. Ensuite il faut creer les vues pour que le client puisse naviguer dans ses donnees sans se perdre. Puis il faut construire les interfaces pour que ce soit agreable a utiliser, pas juste un tableur avec des couleurs. Et enfin, il faut brancher les automatisations pour que les choses se passent toutes seules : les relances, les notifications, les mises a jour de statut, les connexions avec les outils que le client utilise deja.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 4 — LE PROBLEME ============ -->
+<section id="s4" class="bg-bk text-white">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge" style="background:#C9A962;color:#1a1a1a;">02</div>
+            <div>
+                <span class="tag bg-red text-white mb-2">Probleme</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Ce qui bloque le scaling</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-white/70 leading-relaxed reveal">
+            <p>Tout ca, ca fait beaucoup de travail. Et quand tu as plusieurs clients en parallele, ca s'empile. Tu dois jongler entre les projets, gerer les allers-retours, t'assurer que chaque base est propre et fonctionnelle. Et si tu veux scaler, tu as besoin de quelqu'un qui peut prendre ces projets, les executer de facon fiable, et les livrer dans un delai que tu peux annoncer a tes clients sans stresser.</p>
+            <p><strong class="text-gold">C'est exactement la que j'interviens.</strong></p>
+        </div>
+        <div class="grid sm:grid-cols-3 gap-4 mt-12 reveal">
+            <div class="border-2 border-white/20 p-6">
+                <div class="font-display font-black text-3xl text-red mb-2">Variable</div>
+                <div class="font-mono text-[0.65rem] text-white/50 uppercase tracking-wider">Temps moyen par projet</div>
+            </div>
+            <div class="border-2 border-white/20 p-6">
+                <div class="font-display font-black text-3xl text-red mb-2">Trop</div>
+                <div class="font-mono text-[0.65rem] text-white/50 uppercase tracking-wider">Allers-retours</div>
+            </div>
+            <div class="border-2 border-white/20 p-6">
+                <div class="font-display font-black text-3xl text-red mb-2">Limitee</div>
+                <div class="font-mono text-[0.65rem] text-white/50 uppercase tracking-wider">Capacite de scaling</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 5 — LA SOLUTION ============ -->
+<section id="s5" class="brd-t">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">03</div>
+            <div>
+                <span class="tag bg-grn text-white mb-2">Solution</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Ce que je t'apporte</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
+            <p>Je vais etre direct. Peu importe le projet Airtable que tu me confies, voila comment ca se passe de mon cote.</p>
+            <p><strong class="text-bk">2 jours pour le build Airtable.</strong> C'est mon temps pour construire toute la base. Les tables, les champs, les formules, les relations, les lookups, les rollups, les vues filtrees, les vues kanban, les vues calendrier, les interfaces. En deux jours, la base est debout, elle est propre, elle est fonctionnelle, le client peut deja naviguer dedans et comprendre comment ca marche.</p>
+            <p><strong class="text-bk">3 jours pour les automatisations.</strong> C'est mon temps pour brancher tout ce qui doit tourner tout seul. Les automations natives Airtable, les scenarios Make ou n8n, les connexions avec les outils tiers du client, les notifications, les relances, les mises a jour automatiques de statut, les envois de mails, les creations de dossiers, les synchronisations. En trois jours, tout est cable, teste, et ca tourne.</p>
+        </div>
+        <div class="brut-gold p-8 md:p-12 max-w-3xl mt-10 pulse-border reveal">
+            <p class="text-2xl md:text-3xl font-display font-bold leading-relaxed text-bk"><span class="text-gold">5 jours au total.</span> Peu importe le projet.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 6 — LE CADRAGE ============ -->
+<section id="s6" class="brd-t bg-gry">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">04</div>
+            <div>
+                <span class="tag bg-bk text-gold mb-2">Cadrage</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Un cadrage previsible</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed mb-12 reveal">
+            <p>Que ce soit un CRM complet avec pipeline commercial, un systeme de suivi de prospection avec relances automatiques, un calendrier editorial multi-plateforme, un outil de gestion de projet interne, un suivi de facturation, ou n'importe quelle autre demande client, c'est toujours le meme cadrage. 2 jours de build, 3 jours d'automatisations, 5 jours de livraison.</p>
+            <p>Ca veut dire quoi pour toi ? Ca veut dire que quand un client te demande un devis et un delai, tu sais exactement quoi repondre. Tu n'as pas besoin de reflechir a "est-ce que ca va prendre une semaine, deux semaines, trois semaines". C'est <strong class="text-bk">5 jours ouvrables</strong>. Le client signe lundi, il a son outil le vendredi suivant. C'est simple, c'est clair, c'est previsible.</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6 reveal">
+            <div class="brut p-6 relative">
+                <div class="absolute -top-3 left-4"><span class="tag bg-bk text-gold">Phase 1</span></div>
+                <h3 class="font-display font-bold text-xl mt-4 mb-2">Build Airtable</h3>
+                <div class="font-display font-black text-4xl text-gold mb-3">2 jours</div>
+                <p class="text-sm text-bk/60">Tables, champs, formules, relations, vues, interfaces</p>
+            </div>
+            <div class="brut p-6 relative">
+                <div class="absolute -top-3 left-4"><span class="tag bg-bk text-gold">Phase 2</span></div>
+                <h3 class="font-display font-bold text-xl mt-4 mb-2">Automations</h3>
+                <div class="font-display font-black text-4xl text-gold mb-3">3 jours</div>
+                <p class="text-sm text-bk/60">Airtable natif + Make/n8n + outils tiers + tests</p>
+            </div>
+            <div class="brut p-6 relative bg-gold/10" style="border-color:#C9A962;box-shadow:5px 5px 0 0 #C9A962;">
+                <div class="absolute -top-3 left-4"><span class="tag bg-gold text-bk">Total</span></div>
+                <h3 class="font-display font-bold text-xl mt-4 mb-2">Projet livre</h3>
+                <div class="font-display font-black text-4xl text-gold mb-3">5 jours</div>
+                <p class="text-sm text-bk/60">Pret a utiliser</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 7 — PARTIE 1 HEADER : BUILD ============ -->
+<section id="s7" class="bg-bk text-white brd-t">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-6">
+        <div class="flex items-center gap-3">
+            <span class="tag bg-gold text-bk">Build</span>
+            <span class="font-display font-bold text-xl">Le Build Airtable en detail</span>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 8 — JOUR 1 ============ -->
+<section id="s8" class="brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">05</div>
+            <div>
+                <span class="tag bg-blu text-white mb-2">Jour 1</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">La structure</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
+            <p>Le premier jour, je pose les fondations. C'est la partie qui n'est pas visible pour le client mais qui fait que tout tient debout derriere.</p>
+            <p>Je commence par creer les tables. En general, un projet client a entre 3 et 8 tables selon la complexite. Un CRM classique, c'est une table Contacts, une table Entreprises, une table Deals, une table Activites, une table Produits ou Services. Un calendrier editorial, c'est une table Contenus, une table Plateformes, une table Campagnes. Un suivi de prospection, c'est une table Prospects, une table Relances, une table Setters, une table Rendez-vous.</p>
+            <p>Ensuite je cree les champs. Chaque champ a son type, son format, ses options. Les champs texte, les champs date, les champs single select avec toutes les valeurs, les champs multi-select, les champs formule, les champs lookup qui vont chercher des infos dans une autre table, les champs rollup qui font des calculs sur les enregistrements lies. C'est la que la base prend forme. Un champ mal type ou une formule mal ecrite, ca casse tout le reste. Donc je fais ca proprement.</p>
+            <p>Je cree aussi les relations entre les tables. C'est ce qui fait qu'un contact est rattache a une entreprise, qu'un deal est rattache a un contact, qu'une relance est rattachee a un prospect. Sans ces liens, c'est juste des tableurs separes. Avec ces liens, c'est un vrai systeme ou tout est connecte.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 9 — JOUR 2 ============ -->
+<section id="s9" class="bg-gry brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">06</div>
+            <div>
+                <span class="tag bg-blu text-white mb-2">Jour 2</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Les vues et les interfaces</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
+            <p>Le deuxieme jour, c'est la partie visible. C'est ce que le client va utiliser tous les jours.</p>
+            <p>Je cree les vues. Chaque table peut avoir plusieurs vues. Une vue kanban pour le pipeline commercial ou chaque colonne est un statut. Une vue calendrier pour voir les contenus planifies sur un mois. Une vue liste filtree pour voir uniquement les relances du jour. Une vue galerie pour voir les fiches avec des photos. Chaque vue a ses filtres, ses tris, ses regroupements, ses champs visibles. Le client ne voit que ce dont il a besoin, pas tout le reste.</p>
+            <p>Ensuite je construis les interfaces Airtable. C'est la couche par-dessus les vues qui rend tout agreable. Au lieu de naviguer dans un tableur, le client a un vrai tableau de bord. Il voit ses chiffres cles en haut, son pipeline au milieu, ses taches en cours sur le cote. Il peut cliquer sur un element pour ouvrir la fiche, modifier un champ directement depuis l'interface, passer un statut d'un clic. C'est propre, c'est clair, le client comprend tout de suite ou il est et ce qu'il doit faire.</p>
+            <p>A la fin du jour 2, la base est prete. Le client peut deja l'ouvrir, naviguer, comprendre la logique. Il manque juste les automatisations pour que ca tourne tout seul.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 10 — FLOW STRUCTURE ============ -->
+<section id="s10" class="brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">07</div>
+            <div>
+                <span class="tag bg-bk text-white mb-2">Resultat</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Ce qui sort en 2 jours</h2>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6 reveal">
+            <div class="brut p-6">
+                <h3 class="font-display font-bold text-lg mb-4 text-gold">Structure</h3>
+                <div class="space-y-2 font-mono text-sm text-bk/70">
+                    <div>Tables</div>
+                    <div>Champs</div>
+                    <div>Relations</div>
+                    <div>Formules</div>
+                    <div>Lookups / Rollups</div>
+                </div>
+            </div>
+            <div class="brut p-6">
+                <h3 class="font-display font-bold text-lg mb-4 text-gold">Vues</h3>
+                <div class="space-y-2 font-mono text-sm text-bk/70">
+                    <div>Kanban</div>
+                    <div>Calendrier</div>
+                    <div>Listes filtrees</div>
+                    <div>Galerie</div>
+                    <div>Tableur</div>
+                </div>
+            </div>
+            <div class="brut p-6">
+                <h3 class="font-display font-bold text-lg mb-4 text-gold">Interfaces</h3>
+                <div class="space-y-2 font-mono text-sm text-bk/70">
+                    <div>Tableaux de bord</div>
+                    <div>Filtres dynamiques</div>
+                    <div>Edition rapide</div>
+                    <div>Navigation intuitive</div>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-center mt-8 reveal">
+            <div class="flex items-center gap-4 flex-wrap justify-center">
+                <span class="state-pill bg-white"><div class="state-dot bg-bk"></div> Structure</span>
+                <div class="font-mono text-bk/30 flex items-center text-xl">&rarr;</div>
+                <span class="state-pill bg-white"><div class="state-dot bg-blu"></div> Vues</span>
+                <div class="font-mono text-bk/30 flex items-center text-xl">&rarr;</div>
+                <span class="state-pill bg-white"><div class="state-dot bg-gold"></div> Interfaces</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 11 — PARTIE 2 HEADER : AUTOMATIONS ============ -->
+<section id="s11" class="bg-bk text-white brd-t">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-6">
+        <div class="flex items-center gap-3">
+            <span class="tag bg-gold text-bk">Automations</span>
+            <span class="font-display font-bold text-xl">Les Automatisations en detail</span>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 12 — JOUR 3 ============ -->
+<section id="s12" class="brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">08</div>
+            <div>
+                <span class="tag bg-grn text-white mb-2">Jour 3</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Automations natives Airtable</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
+            <p>C'est la que la base prend vie. Sans automatisations, le client doit tout faire a la main. Avec, les choses se font toutes seules.</p>
+            <p>Le troisieme jour, je commence par les automations qui vivent directement dans Airtable. C'est les plus simples a mettre en place mais les plus utilisees au quotidien.</p>
+            <p>Par exemple : quand un prospect passe au statut "Rendez-vous pris", la date du changement se remplit automatiquement, le setter recoit une notification, et le responsable commercial voit la fiche remonter dans sa vue prioritaire.</p>
+            <p>Autre exemple : quand un contenu passe au statut "Publie", la date de publication reelle se remplit avec la date du jour, le responsable recoit un mail de confirmation, et la fiche sort automatiquement de la vue "a publier" pour aller dans la vue "publie".</p>
+            <p>Ce sont des petites actions qui, mises bout a bout, font gagner des dizaines de minutes par jour au client. Et surtout, ca evite les oublis. Un humain oublie de cocher une case, de mettre a jour un champ, de prevenir un collegue. <strong class="text-bk">L'automation, elle, ne loupe jamais.</strong></p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 13 — JOUR 4 ============ -->
+<section id="s13" class="bg-gry brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">09</div>
+            <div>
+                <span class="tag bg-gold text-bk mb-2">Jour 4</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Scenarios Make ou n8n</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
+            <p>Le quatrieme jour, je passe aux automatisations qui connectent Airtable au reste du monde. C'est la que Make et n8n entrent en jeu.</p>
+            <p>Make et n8n, c'est des outils qui permettent de creer des ponts entre differents logiciels. Tu veux que quand un nouveau prospect arrive dans Airtable, un message soit envoye automatiquement sur le Slack du client ? C'est un scenario Make. Tu veux que quand un deal est gagne, une facture soit creee automatiquement dans Stripe ou Pennylane ? C'est un scenario Make. Tu veux que les leads qui arrivent par formulaire Typeform ou Calendly atterrissent directement dans la bonne table Airtable avec les bons champs remplis ? C'est un scenario Make.</p>
+            <p>Chaque client a ses propres outils. Certains utilisent Gmail, d'autres Outlook. Certains ont Slack, d'autres Teams. Certains sont sur HubSpot, d'autres sur Lemlist, d'autres sur LaGrowthMachine. Mon boulot, c'est de prendre les outils du client tels qu'ils sont et de les brancher proprement avec la base Airtable. Le client ne change pas ses habitudes. <strong class="text-bk">Ses outils communiquent entre eux, c'est tout.</strong></p>
+        </div>
+        <div class="grid sm:grid-cols-4 gap-3 mt-10 reveal">
+            <div class="brut p-4 text-center"><div class="font-mono text-xs font-bold">Gmail</div></div>
+            <div class="brut p-4 text-center bg-gold"><div class="font-mono text-xs font-bold">Slack</div></div>
+            <div class="brut p-4 text-center"><div class="font-mono text-xs font-bold">HubSpot</div></div>
+            <div class="brut p-4 text-center bg-gold"><div class="font-mono text-xs font-bold">Calendly</div></div>
+            <div class="brut p-4 text-center bg-gold"><div class="font-mono text-xs font-bold">Stripe</div></div>
+            <div class="brut p-4 text-center"><div class="font-mono text-xs font-bold">Lemlist</div></div>
+            <div class="brut p-4 text-center"><div class="font-mono text-xs font-bold">Typeform</div></div>
+            <div class="brut p-4 text-center bg-gold"><div class="font-mono text-xs font-bold">Notion</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 14 — JOUR 5 ============ -->
+<section id="s14" class="brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">10</div>
+            <div>
+                <span class="tag bg-grn text-white mb-2">Jour 5</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Tests et mise en route</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
+            <p>Le cinquieme jour, c'est le jour ou je fais tourner tout le systeme de bout en bout. Je simule des cas reels. Je cree un faux prospect, je le fais avancer dans le pipeline, je verifie que les automations se declenchent, que les mails partent, que les statuts se mettent a jour, que les notifications arrivent, que les fichiers se creent dans le bon dossier.</p>
+            <p>Si quelque chose ne marche pas comme prevu, je corrige. Si un scenario plante dans un cas particulier, je rajoute une condition. Si un mail arrive avec un mauvais format, j'ajuste le template. A la fin de la journee, tout est teste, tout tourne, et je peux te livrer le projet en disant <strong class="text-bk">"c'est pret, ca marche"</strong>.</p>
+        </div>
+        <div class="max-w-3xl mt-10 space-y-4 reveal">
+            <div class="brut p-5 flex items-start gap-4">
+                <span class="tag bg-blu text-white shrink-0 mt-1">Jour 3</span>
+                <p class="text-bk/70 text-sm">Automations natives Airtable &rarr; triggers, actions, notifications internes</p>
+            </div>
+            <div class="brut p-5 flex items-start gap-4">
+                <span class="tag bg-gold text-bk shrink-0 mt-1">Jour 4</span>
+                <p class="text-bk/70 text-sm">Scenarios Make/n8n &rarr; connexions outils tiers, webhooks, synchronisations</p>
+            </div>
+            <div class="brut p-5 flex items-start gap-4 bg-gold/5" style="border-color:#C9A962;box-shadow:5px 5px 0 0 #C9A962;">
+                <span class="tag bg-grn text-white shrink-0 mt-1">Jour 5</span>
+                <p class="text-bk/70 text-sm">Tests end-to-end &rarr; simulation, corrections, mise en route, validation</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA WHATSAPP #1 -->
+<section class="brd-t brd-b bg-gold">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+            <p class="font-display font-bold text-xl md:text-2xl text-bk">Une question sur le process ?</p>
+            <p class="text-bk/60 text-sm mt-1">Je reponds sous 2h en moyenne.</p>
+        </div>
+        <a href="https://wa.me/33626105640" target="_blank" class="wa-btn">
+            <svg class="wa-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Discutons sur WhatsApp
+        </a>
+    </div>
+</section>
+
+<!-- ============ SECTION 15 — EXEMPLES HEADER ============ -->
+<section id="s15" class="bg-bk text-white">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-6">
+        <div class="flex items-center gap-3">
+            <span class="tag bg-gold text-bk">Exemples</span>
+            <span class="font-display font-bold text-xl">Des projets types en 5 jours</span>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 16 — EXEMPLE 1 CRM ============ -->
+<section id="s16" class="brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">11</div>
+            <div>
+                <span class="tag bg-grn text-white mb-2">Cas #1</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">CRM + Pipeline commercial</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl mb-8 reveal">
+            <p class="text-base md:text-lg text-bk/75 leading-relaxed">Un client a une equipe de 5 commerciaux. Il veut un outil pour suivre ses prospects du premier contact jusqu'a la signature. Il veut voir ou en est chaque deal, qui s'en occupe, depuis combien de temps c'est en attente, et il veut etre alerte quand un deal stagne trop longtemps.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6 reveal">
+            <div class="brut p-6">
+                <div class="font-mono text-xs text-gold uppercase tracking-wider mb-4">Build (2 jours)</div>
+                <div class="space-y-2 text-sm text-bk/70">
+                    <div>&bull; Table Contacts, table Entreprises, table Deals, table Activites</div>
+                    <div>&bull; Vue kanban du pipeline par statut (Nouveau / Contacte / Qualifie / Proposition / Negocie / Gagne / Perdu)</div>
+                    <div>&bull; Vue liste filtree par commercial</div>
+                    <div>&bull; Vue "deals en attente depuis plus de 7 jours"</div>
+                    <div>&bull; Interface tableau de bord : nombre de deals par statut, montant total en cours, taux de conversion</div>
+                    <div>&bull; Fiche deal avec historique des activites, liens vers le contact et l'entreprise</div>
+                </div>
+            </div>
+            <div class="brut p-6">
+                <div class="font-mono text-xs text-gold uppercase tracking-wider mb-4">Automations (3 jours)</div>
+                <div class="space-y-2 text-sm text-bk/70">
+                    <div>&bull; Quand un deal passe a "Gagne" &rarr; notification Slack + mise a jour date de cloture</div>
+                    <div>&bull; Quand un deal est en "Proposition" depuis plus de 5 jours &rarr; alerte au commercial</div>
+                    <div>&bull; Nouveau lead depuis Typeform &rarr; creation automatique dans Airtable avec les bons champs</div>
+                    <div>&bull; Synchronisation avec HubSpot ou Lemlist si le client utilise deja ces outils</div>
+                    <div>&bull; Envoi d'un mail recapitulatif hebdomadaire au manager avec les stats de la semaine</div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-wrap gap-4 mt-8 reveal">
+            <div class="state-pill bg-white"><div class="state-dot bg-bk/30"></div> Nouveau</div>
+            <div class="font-mono text-bk/30 flex items-center">&rarr;</div>
+            <div class="state-pill bg-white"><div class="state-dot bg-blu"></div> Contacte</div>
+            <div class="font-mono text-bk/30 flex items-center">&rarr;</div>
+            <div class="state-pill bg-white"><div class="state-dot bg-gold"></div> Qualifie</div>
+            <div class="font-mono text-bk/30 flex items-center">&rarr;</div>
+            <div class="state-pill bg-white"><div class="state-dot bg-gold"></div> Proposition</div>
+            <div class="font-mono text-bk/30 flex items-center">&rarr;</div>
+            <div class="state-pill bg-white"><div class="state-dot bg-grn"></div> Gagne</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 17 — EXEMPLE 2 CALENDRIER ============ -->
+<section id="s17" class="bg-gry brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">12</div>
+            <div>
+                <span class="tag bg-gold text-bk mb-2">Cas #2</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Calendrier editorial multi-plateforme</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl mb-8 reveal">
+            <p class="text-base md:text-lg text-bk/75 leading-relaxed">Un client gere du contenu sur LinkedIn, Instagram, TikTok, YouTube et une newsletter. Il veut planifier ses contenus a l'avance, voir ce qui est programme, ce qui est en retard, et qui est responsable de quoi.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6 reveal">
+            <div class="brut p-6">
+                <div class="font-mono text-xs text-gold uppercase tracking-wider mb-4">Build (2 jours)</div>
+                <div class="space-y-2 text-sm text-bk/70">
+                    <div>&bull; Table Contenus avec plateforme, type, statut, responsable, priorite, dates</div>
+                    <div>&bull; Vue calendrier principale (jour / semaine / mois)</div>
+                    <div>&bull; 5 vues calendrier filtrees par plateforme</div>
+                    <div>&bull; Vue "a programmer" pour les contenus valides sans date</div>
+                    <div>&bull; Vue "publie" avec URL et date de publication reelle</div>
+                    <div>&bull; Interface dediee avec calendrier, filtres dynamiques, listes laterales</div>
+                </div>
+            </div>
+            <div class="brut p-6">
+                <div class="font-mono text-xs text-gold uppercase tracking-wider mb-4">Automations (3 jours)</div>
+                <div class="space-y-2 text-sm text-bk/70">
+                    <div>&bull; Quand statut passe a "Publie" &rarr; remplir date publication reelle automatiquement</div>
+                    <div>&bull; Rappel automatique la veille de la date de publication prevue &rarr; notification au responsable</div>
+                    <div>&bull; Si contenu pas publie a la date prevue &rarr; alerte</div>
+                    <div>&bull; Connexion avec Buffer ou outil de planification si le client en utilise un</div>
+                    <div>&bull; Rapport hebdo du contenu publie envoye par mail au manager</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 18 — EXEMPLE 3 PROSPECTION ============ -->
+<section id="s18" class="brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">13</div>
+            <div>
+                <span class="tag bg-blu text-white mb-2">Cas #3</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Suivi de prospection avec relances</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl mb-8 reveal">
+            <p class="text-base md:text-lg text-bk/75 leading-relaxed">Un client a une equipe de setters qui font de la prospection. Il veut un outil pour suivre chaque prospect, poser des dates de relance, et ne rien oublier.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6 reveal">
+            <div class="brut p-6">
+                <div class="font-mono text-xs text-gold uppercase tracking-wider mb-4">Build (2 jours)</div>
+                <div class="space-y-2 text-sm text-bk/70">
+                    <div>&bull; Table Prospects, table Relances, table Setters, table Rendez-vous</div>
+                    <div>&bull; Vue kanban du pipeline par statut</div>
+                    <div>&bull; Vue "relances du jour" filtree sur la date du jour</div>
+                    <div>&bull; Vue par setter pour voir la charge de chacun</div>
+                    <div>&bull; Interface avec pipeline, relances a faire, stats par setter</div>
+                    <div>&bull; Fiche prospect avec historique des relances</div>
+                </div>
+            </div>
+            <div class="brut p-6">
+                <div class="font-mono text-xs text-gold uppercase tracking-wider mb-4">Automations (3 jours)</div>
+                <div class="space-y-2 text-sm text-bk/70">
+                    <div>&bull; Chaque matin a 8h &rarr; notification a chaque setter avec sa liste de relances du jour</div>
+                    <div>&bull; Quand une relance est faite &rarr; proposer automatiquement une prochaine date de relance</div>
+                    <div>&bull; Si relance prevue il y a plus de 2 jours et pas faite &rarr; alerte au manager</div>
+                    <div>&bull; Nouveau lead depuis Calendly ou formulaire &rarr; creation automatique dans Airtable</div>
+                    <div>&bull; Attribution automatique au setter disponible (round-robin ou par critere)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 19 — EXEMPLE 4 GESTION PROJET ============ -->
+<section id="s19" class="bg-gry brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">14</div>
+            <div>
+                <span class="tag bg-bk text-white mb-2">Cas #4</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Gestion de projet interne</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl mb-8 reveal">
+            <p class="text-base md:text-lg text-bk/75 leading-relaxed">Un client a une equipe qui travaille sur plusieurs projets en parallele. Il veut un outil pour voir qui fait quoi, les deadlines, les priorites, et l'avancement global.</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6 reveal">
+            <div class="brut p-6">
+                <div class="font-mono text-xs text-gold uppercase tracking-wider mb-4">Build (2 jours)</div>
+                <div class="space-y-2 text-sm text-bk/70">
+                    <div>&bull; Table Projets, table Taches, table Membres, table Livrables</div>
+                    <div>&bull; Vue kanban des taches par statut (A faire / En cours / En review / Termine)</div>
+                    <div>&bull; Vue timeline pour voir les deadlines sur un calendrier</div>
+                    <div>&bull; Vue par membre pour la charge de travail</div>
+                    <div>&bull; Interface tableau de bord : projets en cours, taches en retard, charge par personne</div>
+                </div>
+            </div>
+            <div class="brut p-6">
+                <div class="font-mono text-xs text-gold uppercase tracking-wider mb-4">Automations (3 jours)</div>
+                <div class="space-y-2 text-sm text-bk/70">
+                    <div>&bull; Quand une tache passe a "Termine" &rarr; mise a jour du pourcentage d'avancement du projet</div>
+                    <div>&bull; Quand une deadline approche (J-2) &rarr; notification au responsable</div>
+                    <div>&bull; Tache en retard &rarr; alerte automatique</div>
+                    <div>&bull; Creation de taches recurrentes (hebdo, mensuel) via automation scheduled</div>
+                    <div>&bull; Rapport mensuel envoye au client ou au manager</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA WHATSAPP #2 -->
+<section class="brd-t brd-b bg-bk">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+            <p class="font-display font-bold text-xl md:text-2xl text-white">Tu veux voir un exemple en detail ?</p>
+            <p class="text-white/40 text-sm mt-1">On peut planifier un call de 20 minutes.</p>
+        </div>
+        <a href="https://wa.me/33626105640" target="_blank" class="wa-btn">
+            <svg class="wa-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Planifier un call
+        </a>
+    </div>
+</section>
+
+<!-- ============ SECTION 20 — COMMENT ON TRAVAILLE ENSEMBLE ============ -->
+<section id="s20" class="brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">15</div>
+            <div>
+                <span class="tag bg-bk text-gold mb-2">Process</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Comment on travaille ensemble</h2>
+            </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="relative max-w-3xl pl-14 md:pl-16 reveal">
+            <div class="timeline-line"></div>
+
+            <div class="mb-10 relative">
+                <div class="absolute -left-14 md:-left-16 number-badge w-[36px] h-[36px] md:w-[48px] md:h-[48px] text-xs md:text-sm" style="background:#C9A962;color:#1a1a1a;">1</div>
+                <div class="brut p-6">
+                    <div class="font-mono text-xs text-bk/50 uppercase tracking-wider mb-2">Tu recois une demande client</div>
+                    <p class="text-bk/75 leading-relaxed">Un client te contacte. Il t'explique son besoin. Tu fais ton call de decouverte, tu comprends ce qu'il veut, tu lui fais un devis. Dans ce devis, tu sais que la partie build + automatisations, c'est 5 jours de mon cote. Tu peux pricer en consequence.</p>
+                </div>
+            </div>
+
+            <div class="mb-10 relative">
+                <div class="absolute -left-14 md:-left-16 number-badge w-[36px] h-[36px] md:w-[48px] md:h-[48px] text-xs md:text-sm">2</div>
+                <div class="brut p-6">
+                    <div class="font-mono text-xs text-bk/50 uppercase tracking-wider mb-2">Tu me transmets le brief</div>
+                    <p class="text-bk/75 leading-relaxed">Une fois que le client a signe, tu me transmets le brief. Ca peut etre un document, un Loom, un vocal, un message, peu importe. L'essentiel c'est que j'aie les infos : quel est le besoin, quelles tables, quels champs, quelles vues, quels outils tiers, quelles automatisations. Si le brief est clair, je demarre. Si j'ai des questions, je te les pose en une seule fois pour eviter les allers-retours.</p>
+                </div>
+            </div>
+
+            <div class="mb-10 relative">
+                <div class="absolute -left-14 md:-left-16 number-badge w-[36px] h-[36px] md:w-[48px] md:h-[48px] text-xs md:text-sm" style="background:#C9A962;color:#1a1a1a;">3</div>
+                <div class="brut p-6">
+                    <div class="font-mono text-xs text-bk/50 uppercase tracking-wider mb-2">Je build pendant 5 jours</div>
+                    <p class="text-bk/75 leading-relaxed">Jours 1-2 : je construis la base Airtable. A la fin du jour 2, je peux te faire un point rapide pour que tu voies la structure avant que j'attaque les automations. Si tu veux modifier un truc, c'est le bon moment.</p>
+                    <p class="text-bk/75 leading-relaxed mt-3">Jours 3-5 : je branche les automations, je teste tout, et je livre. Tu recois un lien vers la base, tout est pret, tout fonctionne.</p>
+                </div>
+            </div>
+
+            <div class="relative">
+                <div class="absolute -left-14 md:-left-16 number-badge w-[36px] h-[36px] md:w-[48px] md:h-[48px] text-xs md:text-sm">4</div>
+                <div class="brut p-6 bg-gold/5" style="border-color:#C9A962;box-shadow:5px 5px 0 0 #C9A962;">
+                    <div class="font-mono text-xs text-gold uppercase tracking-wider mb-2">Tu livres au client</div>
+                    <p class="text-bk/75 leading-relaxed">Tu presentes la base au client, tu lui fais une demo, tu l'accompagnes. Si le client a des retouches mineures, je les integre. Si c'est un changement de scope, on en discute.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 21 — LE WORKFLOW ============ -->
+<section id="s21" class="bg-gry brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">16</div>
+            <div>
+                <span class="tag bg-bk text-white mb-2">Workflow</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Chacun dans son role</h2>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6 reveal">
+            <div class="brut p-6 text-center">
+                <div class="font-display font-bold text-lg mb-2">Toi</div>
+                <div class="font-mono text-sm text-bk/60">Vente, relation client, brief</div>
+            </div>
+            <div class="brut p-6 text-center bg-gold/10" style="border-color:#C9A962;box-shadow:5px 5px 0 0 #C9A962;">
+                <div class="font-display font-bold text-lg mb-2 text-gold">Moi</div>
+                <div class="font-mono text-sm text-bk/60">Build 2j + Automations 3j</div>
+            </div>
+            <div class="brut p-6 text-center">
+                <div class="font-display font-bold text-lg mb-2">Toi</div>
+                <div class="font-mono text-sm text-bk/60">Livraison client, demo, accompagnement</div>
+            </div>
+        </div>
+        <div class="max-w-3xl mt-10 reveal">
+            <p class="text-base md:text-lg text-bk/75 leading-relaxed">C'est un fonctionnement simple. Tu te concentres sur ce que tu fais de mieux, la relation client et le commercial. Je me concentre sur ce que je fais de mieux, la construction des bases et des automatisations. Chacun dans son role, pas de confusion, pas de chevauchement.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 22 — STACK TECHNIQUE ============ -->
+<section id="s22" class="brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">17</div>
+            <div>
+                <span class="tag bg-bk text-white mb-2">Stack</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Les outils que j'utilise</h2>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6 reveal">
+            <div class="brut p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="tag bg-bk text-gold">Airtable</span>
+                    <span class="font-mono text-xs text-bk/40">Base de tout</span>
+                </div>
+                <p class="text-sm text-bk/70 leading-relaxed">C'est la ou les donnees vivent. Airtable, c'est un outil qui ressemble a un tableur mais qui fonctionne comme une vraie base de donnees. Le gros avantage par rapport a un Google Sheet, c'est les relations entre les tables, les vues multiples, les interfaces, et les automations natives. C'est l'outil parfait pour les clients qui veulent quelque chose de puissant sans avoir besoin de savoir coder.</p>
+            </div>
+            <div class="brut p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="tag bg-bk text-gold">Make</span>
+                    <span class="font-mono text-xs text-bk/40">ex-Integromat</span>
+                </div>
+                <p class="text-sm text-bk/70 leading-relaxed">C'est l'outil que j'utilise le plus souvent pour les automatisations entre Airtable et les outils tiers. Make a des centaines de connecteurs : Gmail, Slack, HubSpot, Calendly, Stripe, Notion, Google Drive, Mailchimp, Lemlist, et plein d'autres. L'avantage de Make, c'est que c'est visuel. Tu vois les scenarios sous forme de blocs relies entre eux. C'est facile a comprendre, facile a maintenir, facile a debugger si un truc plante.</p>
+            </div>
+            <div class="brut p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="tag bg-bk text-gold">n8n</span>
+                    <span class="font-mono text-xs text-bk/40">Open source</span>
+                </div>
+                <p class="text-sm text-bk/70 leading-relaxed">C'est une alternative a Make qui est open source et auto-hebergeable. Je l'utilise quand le client a des contraintes de donnees sensibles (RGPD, donnees de sante, donnees financieres) ou quand le volume d'automatisations est tellement eleve que Make deviendrait trop cher. n8n tourne sur un serveur a 10-15 euros par mois, donc les couts sont fixes quel que soit le volume.</p>
+            </div>
+            <div class="brut p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="tag bg-bk text-gold">Airtable Automations</span>
+                    <span class="font-mono text-xs text-bk/40">Natif</span>
+                </div>
+                <p class="text-sm text-bk/70 leading-relaxed">Pour les automatisations simples qui restent dans Airtable, j'utilise les automations natives. C'est plus rapide a mettre en place, ca ne depend d'aucun outil externe, et ca fonctionne directement dans la base. Pour les triggers de type "quand un champ change, fais telle action", c'est le plus efficace.</p>
+            </div>
+            <div class="brut p-6 md:col-span-2">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="tag bg-bk text-gold">API / Webhooks</span>
+                    <span class="font-mono text-xs text-bk/40">Sur mesure</span>
+                </div>
+                <p class="text-sm text-bk/70 leading-relaxed">Quand un outil n'a pas de connecteur Make ou n8n, je passe par l'API directement. La plupart des outils SaaS modernes ont une API. Ca me permet de connecter pratiquement n'importe quoi avec Airtable, meme des outils de niche que le client utilise.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 23 — IMPACT ============ -->
+<section id="s23" class="bg-bk text-white brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge" style="background:#C9A962;color:#1a1a1a;">18</div>
+            <div>
+                <span class="tag bg-gold text-bk mb-2">Impact</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Ce que ca change pour ton agence</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-white/70 leading-relaxed mb-12 reveal">
+            <p>Aujourd'hui, si tu veux livrer un projet client, tu dois soit le faire toi-meme, soit trouver quelqu'un de confiance, briefer cette personne, suivre l'avancement, verifier que c'est bien fait, corriger si ca ne l'est pas, et esperer que les delais soient tenus. C'est lourd, et ca limite le nombre de projets que tu peux prendre en parallele.</p>
+            <p>Avec moi dans l'equipe, voila ce qui change.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-6 reveal">
+            <div class="border-2 border-white/10 p-6">
+                <div class="font-display font-bold text-lg text-gold mb-4">Delais previsibles</div>
+                <p class="text-sm text-white/60 leading-relaxed">5 jours par projet, a chaque fois. Tu peux annoncer un delai a tes clients et le tenir. Tu n'as pas a te demander si ca va deborder. Ca ne deborde pas parce que c'est mon rythme de travail, c'est rode.</p>
+            </div>
+            <div class="border-2 border-white/10 p-6">
+                <div class="font-display font-bold text-lg text-gold mb-4">Capacite de scaling</div>
+                <p class="text-sm text-white/60 leading-relaxed">Si tu as 1 projet par semaine, je livre 1 projet par semaine. Si tu as 2 projets par semaine, on s'organise. Le temps de build est fixe, donc c'est planifiable. Tu peux prendre plus de clients sans que la qualite baisse.</p>
+            </div>
+            <div class="border-2 border-white/10 p-6">
+                <div class="font-display font-bold text-lg text-gold mb-4">Moins d'allers-retours</div>
+                <p class="text-sm text-white/60 leading-relaxed">Parce que je connais Airtable et les outils d'automatisation, je n'ai pas besoin qu'on me tienne la main. Tu me donnes un brief clair, je livre un resultat propre. Si j'ai des questions, je les pose en une seule fois.</p>
+            </div>
+            <div class="border-2 border-white/10 p-6">
+                <div class="font-display font-bold text-lg text-gold mb-4">Qualite constante</div>
+                <p class="text-sm text-white/60 leading-relaxed">Chaque base que je livre a la meme rigueur. Les champs sont bien types, les formules sont propres, les vues sont bien filtrees, les interfaces sont claires, les automations sont testees. Le client recoit un outil professionnel, pas un prototype.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 24 — AVANT / APRES ============ -->
+<section id="s24" class="brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">19</div>
+            <div>
+                <span class="tag bg-bk text-white mb-2">Comparatif</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Avant vs Apres</h2>
+            </div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-6 reveal">
+            <div class="brut p-6">
+                <div class="font-mono text-xs text-red uppercase tracking-wider mb-4">Avant</div>
+                <div class="space-y-3 text-sm text-bk/60">
+                    <div class="flex justify-between"><span>Delais</span><span class="text-red font-mono font-bold">Variables selon le projet</span></div>
+                    <div class="flex justify-between"><span>Projets en parallele</span><span class="text-red font-mono font-bold">Difficile</span></div>
+                    <div class="flex justify-between"><span>Briefer un prestataire</span><span class="text-red font-mono font-bold">Allers-retours</span></div>
+                    <div class="flex justify-between"><span>Qualite</span><span class="text-red font-mono font-bold">Variable</span></div>
+                </div>
+            </div>
+            <div class="brut p-6" style="border-color:#C9A962;box-shadow:5px 5px 0 0 #C9A962;">
+                <div class="font-mono text-xs text-grn uppercase tracking-wider mb-4">Apres</div>
+                <div class="space-y-3 text-sm text-bk/60">
+                    <div class="flex justify-between"><span>Delais</span><span class="text-grn font-mono font-bold">5 jours fixes</span></div>
+                    <div class="flex justify-between"><span>Projets en parallele</span><span class="text-grn font-mono font-bold">Capacite planifiable</span></div>
+                    <div class="flex justify-between"><span>Briefer un prestataire</span><span class="text-grn font-mono font-bold">Un brief, une livraison</span></div>
+                    <div class="flex justify-between"><span>Qualite</span><span class="text-grn font-mono font-bold">Standard constant</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA WHATSAPP #3 -->
+<section class="brd-t brd-b bg-gold">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div>
+            <p class="font-display font-bold text-xl md:text-2xl text-bk">Ca te parle ?</p>
+            <p class="text-bk/60 text-sm mt-1">On en discute en 20 minutes.</p>
+        </div>
+        <a href="https://wa.me/33626105640" target="_blank" class="wa-btn">
+            <svg class="wa-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Discutons sur WhatsApp
+        </a>
+    </div>
+</section>
+
+<!-- ============ SECTION 25 — QUELQUES MOTS SUR MOI ============ -->
+<section id="s25" class="brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">20</div>
+            <div>
+                <span class="tag bg-bk text-white mb-2">A propos</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Quelques mots sur moi</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
+            <p>Je vais pas te faire un CV long comme le bras. Je te fais le resume.</p>
+            <p>Je construis des bases Airtable et des automatisations depuis suffisamment longtemps pour avoir developpe une methode qui fonctionne. J'ai fait des CRM, des pipelines commerciaux, des outils de gestion de contenu, des systemes de relance, des tableaux de bord, des outils de suivi de projet, des automatisations avec Make, n8n, des connexions API. J'ai vu pas mal de cas differents et a chaque fois, le schema est le meme : comprendre le besoin, structurer la base, construire les vues, brancher les automations, tester, livrer.</p>
+            <p>C'est pour ca que le temps est fixe. Pas parce que je bacle, mais parce que j'ai fait ca suffisamment de fois pour savoir combien de temps chaque etape prend. Les 2 jours de build, c'est pas 2 jours ou je decouvre Airtable. <strong class="text-bk">C'est 2 jours ou j'execute une methode que je connais par coeur.</strong></p>
+            <p>Ce qui m'interesse dans une collaboration avec ton agence, c'est le volume et la regularite. Toi tu as les clients, tu geres la relation, le commercial, le suivi. Moi je fais le build et les automations. On fait chacun ce qu'on sait faire. C'est simple et ca peut durer longtemps si le courant passe bien.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 26 — BUDGET ============ -->
+<section id="s26" class="bg-gry brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">21</div>
+            <div>
+                <span class="tag bg-gold text-bk mb-2">Budget</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Comment on peut fonctionner</h2>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 items-start">
+            <div class="reveal">
+                <div class="brut p-8 text-center mb-6">
+                    <div class="font-display font-black text-3xl md:text-4xl text-bk mb-2">Forfait par projet</div>
+                    <div class="font-mono text-xs text-bk/50 uppercase tracking-wider">5 jours de travail</div>
+                </div>
+                <div class="space-y-3">
+                    <div class="brut p-4 flex items-center gap-3">
+                        <span class="tag bg-bk text-gold text-[0.6rem]">Inclus</span>
+                        <span class="text-sm text-bk/70">2 jours de build Airtable</span>
+                    </div>
+                    <div class="brut p-4 flex items-center gap-3">
+                        <span class="tag bg-bk text-gold text-[0.6rem]">Inclus</span>
+                        <span class="text-sm text-bk/70">3 jours d'automatisations (Make / n8n / Airtable natif)</span>
+                    </div>
+                    <div class="brut p-4 flex items-center gap-3">
+                        <span class="tag bg-bk text-gold text-[0.6rem]">Inclus</span>
+                        <span class="text-sm text-bk/70">Tests inclus</span>
+                    </div>
+                    <div class="brut p-4 flex items-center gap-3">
+                        <span class="tag bg-bk text-gold text-[0.6rem]">Inclus</span>
+                        <span class="text-sm text-bk/70">Corrections mineures post-livraison incluses</span>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal">
+                <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed mb-8">
+                    <p>Je te propose un fonctionnement au forfait par projet. C'est le plus simple et le plus lisible pour toi et pour tes clients.</p>
+                    <p>Le tarif exact, on en discute en fonction du volume. Si tu m'envoies 1 projet par mois, c'est un prix. Si tu m'en envoies 4 par mois, c'est un autre prix, plus avantageux pour toi. C'est normal et c'est logique.</p>
+                    <p>Ce qui est sur, c'est que le cadrage reste le meme. <strong class="text-bk">5 jours, 2+3, quel que soit le projet.</strong> Pas de surprise sur le temps, pas de surprise sur le livrable.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 27 — VOLUME ============ -->
+<section id="s27" class="brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">22</div>
+            <div>
+                <span class="tag bg-bk text-white mb-2">Volume</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Tarification selon le volume</h2>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6 reveal">
+            <div class="brut p-6">
+                <div class="font-display font-bold text-lg mb-2">1-2 projets / mois</div>
+                <div class="font-mono text-sm text-gold font-bold mb-3">Forfait standard</div>
+                <p class="text-sm text-bk/60">Forfait standard par projet</p>
+            </div>
+            <div class="brut p-6" style="border-color:#C9A962;box-shadow:5px 5px 0 0 #C9A962;">
+                <div class="font-display font-bold text-lg mb-2">3-4 projets / mois</div>
+                <div class="font-mono text-sm text-gold font-bold mb-3">Tarif preferentiel</div>
+                <p class="text-sm text-bk/60">Planification semaine par semaine</p>
+            </div>
+            <div class="brut p-6">
+                <div class="font-display font-bold text-lg mb-2">5+ projets / mois</div>
+                <div class="font-mono text-sm text-gold font-bold mb-3">Collaboration continue</div>
+                <p class="text-sm text-bk/60">Tarif negocie, priorite garantie</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 28 — TEMPLATISATION ============ -->
+<section id="s28" class="bg-bk text-white brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge" style="background:#C9A962;color:#1a1a1a;">23</div>
+            <div>
+                <span class="tag bg-gold text-bk mb-2">Moyen terme</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Ce qui va accelerer encore les choses</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-white/70 leading-relaxed reveal">
+            <p>Un truc que je veux te mentionner parce que ca change la donne sur le moyen terme.</p>
+            <p>Au fur et a mesure des projets, je vais templatiser les bases. Ca veut dire qu'apres avoir construit un CRM pour un premier client, le CRM suivant sera plus rapide a livrer parce que la structure de base existe deja. Je duplique, j'adapte les champs et les valeurs au contexte du nouveau client, et c'est fait.</p>
+            <p>Pareil pour les automations. Un scenario de relance automatique, une fois qu'il est construit une premiere fois, le deuxieme est beaucoup plus rapide parce que la logique est la meme, il faut juste changer les parametres.</p>
+            <p>Ca veut pas dire que le temps passe a 2 jours au lieu de 5. Ca veut dire que la qualite augmente parce que je pars d'une base testee et eprouvee, et que ca me laisse plus de temps pour peaufiner les details specifiques au client.</p>
+            <p><strong class="text-gold">Les 5 jours restent les 5 jours. Mais ce qui sort au bout de ces 5 jours est de plus en plus solide au fil du temps.</strong></p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 29 — PROCHAINE ETAPE ============ -->
+<section id="s29" class="brd-b">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+        <div class="flex items-center gap-4 mb-10 reveal">
+            <div class="number-badge">24</div>
+            <div>
+                <span class="tag bg-grn text-white mb-2">Next</span>
+                <h2 class="font-display font-black text-3xl md:text-4xl">Prochaine etape</h2>
+            </div>
+        </div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
+            <p>Si ca te parle, la prochaine etape c'est simple. On se fait un call de 20-30 minutes, tu me presentes un premier projet client, et je te montre comment je le decouplerais en 5 jours. Comme ca tu vois ma facon de raisonner, et on decide ensemble si on part.</p>
+            <p>Pas d'engagement long terme au debut. On fait un premier projet, tu vois comment ca se passe, tu vois la qualite, tu vois le delai. Si t'es content, on continue. Si t'es pas content, pas de souci, on se serre la main et chacun reprend sa route.</p>
+            <p>Mais je pense que ca peut bien marcher entre nous. Tu as le volume, tu as les clients, et moi j'ai la capacite de livrer vite et proprement. <strong class="text-bk">C'est une bonne combinaison.</strong></p>
+        </div>
+    </div>
+</section>
+
+<!-- ============ SECTION 30 — CONTACT FINAL ============ -->
+<section id="s30" class="bg-bk text-white">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-20 md:py-28 text-center">
+        <div class="reveal">
+            <div class="number-badge mx-auto mb-8" style="background:#C9A962;color:#1a1a1a;">25</div>
+            <h2 class="font-display font-black text-3xl md:text-5xl mb-6">On en discute ?</h2>
+            <p class="text-white/60 text-base md:text-lg max-w-xl mx-auto mb-4 leading-relaxed">Si tu as des questions, la moindre chose qui n'est pas claire, n'hesite pas. Je suis dispo par mail ou par telephone, comme tu preferes.</p>
+            <p class="text-white/60 text-lg mb-10">A tres vite Rafael,<br><strong class="text-gold text-xl">Baptiste</strong></p>
+            <a href="https://wa.me/33626105640" target="_blank" class="wa-btn text-lg px-10 py-5 mx-auto inline-flex">
+                <svg class="wa-svg" style="width:28px;height:28px;" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Discutons sur WhatsApp
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="brd-t bg-white">
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="font-display font-bold text-sm">BAPTISTE<span class="text-gold">/</span>FORT</div>
+        <div class="font-mono text-[0.6rem] text-bk/40 tracking-wider">PROPOSITION — RAFAEL — FEVRIER 2026</div>
+    </div>
+</footer>
+
+<!-- ============ SCRIPTS ============ -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // === GSAP ScrollTrigger Reveals ===
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.utils.toArray('.reveal').forEach((el, i) => {
+        gsap.fromTo(el,
+            { opacity: 0, y: 40 },
+            {
+                opacity: 1, y: 0, duration: 0.8,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: el, start: 'top 88%', toggleActions: 'play none none none'
+                }
+            }
+        );
+    });
+
+    // === Table of Contents Generation ===
+    const tocContainer = document.getElementById('toc-container');
+    const sections = [
+        { id: 's1', label: 'Introduction' },
+        { id: 's3', label: 'Comment ca se passe aujourd\'hui' },
+        { id: 's4', label: 'Ce qui bloque le scaling' },
+        { id: 's5', label: 'Ce que je t\'apporte' },
+        { id: 's6', label: 'Un cadrage previsible' },
+        { id: 's8', label: 'Jour 1 — La structure' },
+        { id: 's9', label: 'Jour 2 — Vues et interfaces' },
+        { id: 's10', label: 'Ce qui sort en 2 jours' },
+        { id: 's12', label: 'Jour 3 — Automations natives' },
+        { id: 's13', label: 'Jour 4 — Scenarios Make/n8n' },
+        { id: 's14', label: 'Jour 5 — Tests' },
+        { id: 's16', label: 'Exemple — CRM + Pipeline' },
+        { id: 's17', label: 'Exemple — Calendrier editorial' },
+        { id: 's18', label: 'Exemple — Prospection' },
+        { id: 's19', label: 'Exemple — Gestion de projet' },
+        { id: 's20', label: 'Comment on travaille ensemble' },
+        { id: 's21', label: 'Chacun dans son role' },
+        { id: 's22', label: 'Stack technique' },
+        { id: 's23', label: 'Impact sur ton agence' },
+        { id: 's24', label: 'Avant vs Apres' },
+        { id: 's25', label: 'Quelques mots sur moi' },
+        { id: 's26', label: 'Budget' },
+        { id: 's27', label: 'Volume' },
+        { id: 's28', label: 'Templatisation' },
+        { id: 's29', label: 'Prochaine etape' },
+    ];
+    if (tocContainer) {
+        sections.forEach((s, i) => {
+            const a = document.createElement('a');
+            a.href = '#' + s.id;
+            a.className = 'toc-link';
+            a.innerHTML = `<span class="text-gold font-bold mr-2">${String(i + 1).padStart(2, '0')}</span> ${s.label}`;
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.getElementById(s.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+            tocContainer.appendChild(a);
+        });
+    }
+
+    // === Nav shrink on scroll ===
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+            nav.style.backdropFilter = 'blur(10px)';
+            nav.style.background = 'rgba(255,255,255,0.95)';
+        } else {
+            nav.style.backdropFilter = 'none';
+            nav.style.background = 'white';
+        }
+    });
+
+    // === Easter Egg #1: Logo click counter ===
+    let logoClicks = 0;
+    const logo = document.getElementById('logo-click');
+    logo.addEventListener('click', () => {
+        logoClicks++;
+        if (logoClicks === 5) {
+            logo.innerHTML = '<span class="text-gold">MERCI</span> RAFAEL';
+            logo.style.transition = 'all 0.3s ease';
+            setTimeout(() => {
+                logo.innerHTML = 'BAPTISTE<span class="text-gold">/</span>FORT';
+            }, 3000);
+            logoClicks = 0;
+        }
+        logo.classList.add('easter-glow');
+        setTimeout(() => logo.classList.remove('easter-glow'), 600);
+    });
+
+    // === Easter Egg #2: Konami Code -> Confetti ===
+    const konamiCode = [38,38,40,40,37,39,37,39,66,65];
+    let konamiIndex = 0;
+    document.addEventListener('keydown', (e) => {
+        if (e.keyCode === konamiCode[konamiIndex]) {
+            konamiIndex++;
+            if (konamiIndex === konamiCode.length) {
+                launchConfetti();
+                konamiIndex = 0;
+            }
+        } else {
+            konamiIndex = 0;
+        }
+    });
+
+    function launchConfetti() {
+        const colors = ['#C9A962', '#e53935', '#43a047', '#4A6FA5', '#1a1a1a', '#E8D5A3'];
+        for (let i = 0; i < 80; i++) {
+            const piece = document.createElement('div');
+            piece.className = 'confetti-piece';
+            piece.style.cssText = `
+                left: ${Math.random() * 100}vw;
+                top: -20px;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                width: ${6 + Math.random() * 10}px;
+                height: ${6 + Math.random() * 10}px;
+                transform: rotate(${Math.random() * 360}deg);
+            `;
+            document.body.appendChild(piece);
+            gsap.to(piece, {
+                y: window.innerHeight + 100,
+                x: (Math.random() - 0.5) * 300,
+                rotation: Math.random() * 720,
+                duration: 2 + Math.random() * 2,
+                ease: 'power1.out',
+                onComplete: () => piece.remove()
+            });
+        }
+    }
+
+    // === Easter Egg #3: Type "airtable" -> gold flash ===
+    let typedKeys = '';
+    document.addEventListener('keypress', (e) => {
+        typedKeys += e.key.toLowerCase();
+        if (typedKeys.length > 15) typedKeys = typedKeys.slice(-15);
+        if (typedKeys.includes('airtable')) {
+            typedKeys = '';
+            document.body.style.transition = 'background 0.3s ease';
+            document.body.style.background = '#C9A962';
+            setTimeout(() => { document.body.style.background = '#fafaf8'; }, 400);
+        }
+    });
+
+    // === Easter Egg #4: Console message ===
+    console.log('%c⚡ Rafael × Baptiste Fort', 'font-size:20px;font-weight:bold;color:#C9A962;background:#1a1a1a;padding:10px 20px;');
+    console.log('%cTu lis la console ? Tu es curieux, j\'aime ca. 👀', 'font-size:12px;color:#666;');
+
+    // === Micro-interaction: Number badges pulse on hover ===
+    document.querySelectorAll('.number-badge').forEach(badge => {
+        badge.addEventListener('mouseenter', () => {
+            gsap.to(badge, { scale: 1.15, duration: 0.2, ease: 'back.out(3)' });
+        });
+        badge.addEventListener('mouseleave', () => {
+            gsap.to(badge, { scale: 1, duration: 0.2 });
+        });
+    });
+
+    // === Micro-interaction: Tags wiggle on hover ===
+    document.querySelectorAll('.tag').forEach(tag => {
+        tag.addEventListener('mouseenter', () => {
+            gsap.to(tag, {
+                rotation: -2, duration: 0.1, yoyo: true, repeat: 3,
+                onComplete: () => gsap.set(tag, { rotation: 0 })
+            });
+        });
+    });
+
+    // === Micro-interaction: State pills glow ===
+    document.querySelectorAll('.state-pill').forEach(pill => {
+        pill.addEventListener('mouseenter', () => {
+            const dot = pill.querySelector('.state-dot');
+            if (dot) gsap.to(dot, { scale: 1.8, duration: 0.3, yoyo: true, repeat: 1 });
+        });
+    });
+
+    // === Smooth scroll for anchor links ===
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', (e) => {
+            const target = document.querySelector(a.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // === Parallax subtle on hero ===
+    const hero = document.querySelector('#s1 .brut');
+    if (hero) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            if (scrolled < 800) {
+                hero.style.transform = `translateY(${scrolled * 0.05}px)`;
+            }
+        });
+    }
+});
+</script>
+
+</body>
+</html>
