@@ -169,9 +169,142 @@
             0% { box-shadow: 0 0 0 0 rgba(201,169,98,0.6); }
             100% { box-shadow: 0 0 40px 20px rgba(201,169,98,0); }
         }
+
+        /* === SCROLL PROGRESS BAR === */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0; height: 3px;
+            background: linear-gradient(90deg, #C9A962, #E8D5A3, #C9A962);
+            z-index: 100; width: 0%; transition: width 0.05s linear;
+        }
+
+        /* === ANIMATED UNDERLINE ON TITLES === */
+        .title-line { position: relative; display: inline-block; }
+        .title-line::after {
+            content: ''; position: absolute; bottom: -6px; left: 0;
+            width: 0; height: 3px; background: #C9A962;
+            transition: width 1s cubic-bezier(.4,0,.2,1);
+        }
+        .title-line.is-active::after { width: 100%; }
+
+        /* === HIGHLIGHT BAR LEFT === */
+        .hl-bar { position: relative; padding-left: 24px; }
+        .hl-bar::before {
+            content: ''; position: absolute; left: 0; top: 0;
+            width: 3px; height: 0; background: #C9A962;
+            transition: height 0.8s cubic-bezier(.4,0,.2,1) 0.3s;
+        }
+        .hl-bar.is-active::before { height: 100%; }
+
+        /* === FLOATING GEOMETRIC DECORATIONS === */
+        .geo {
+            position: absolute; pointer-events: none; z-index: 0; opacity: 0.08;
+        }
+        .geo-sq {
+            border: 2.5px solid #C9A962;
+        }
+        .geo-dot {
+            background: #C9A962; border-radius: 50%;
+        }
+        .geo-cross::before, .geo-cross::after {
+            content: ''; position: absolute; background: #C9A962;
+        }
+        .geo-cross::before { width: 100%; height: 2.5px; top: 50%; transform: translateY(-50%); }
+        .geo-cross::after { height: 100%; width: 2.5px; left: 50%; transform: translateX(-50%); }
+
+        @keyframes geoFloat1 {
+            0%,100% { transform: translate(0,0) rotate(0deg); }
+            50% { transform: translate(12px,-18px) rotate(45deg); }
+        }
+        @keyframes geoFloat2 {
+            0%,100% { transform: translate(0,0) rotate(0deg); }
+            50% { transform: translate(-10px,14px) rotate(-30deg); }
+        }
+        @keyframes geoFloat3 {
+            0%,100% { transform: translate(0,0) rotate(0deg); }
+            33% { transform: translate(8px,-12px) rotate(20deg); }
+            66% { transform: translate(-6px,10px) rotate(-15deg); }
+        }
+        .geo-a1 { animation: geoFloat1 6s ease-in-out infinite; }
+        .geo-a2 { animation: geoFloat2 8s ease-in-out infinite; }
+        .geo-a3 { animation: geoFloat3 5s ease-in-out infinite; }
+
+        /* === STAGGER ITEMS === */
+        .stagger-item { opacity: 0; transform: translateX(-30px); }
+        .stagger-item-r { opacity: 0; transform: translateX(30px); }
+
+        /* === ANIMATED SEPARATOR === */
+        .anim-sep {
+            height: 3px; background: linear-gradient(90deg, transparent, #C9A962, transparent);
+            transform: scaleX(0); transition: transform 1.2s cubic-bezier(.4,0,.2,1);
+        }
+        .anim-sep.is-active { transform: scaleX(1); }
+
+        /* === TYPING CURSOR === */
+        .cursor-blink::after {
+            content: '|'; color: #C9A962; font-weight: 300;
+            animation: cursorBlink 1s step-end infinite;
+        }
+        @keyframes cursorBlink {
+            0%,100% { opacity: 1; } 50% { opacity: 0; }
+        }
+
+        /* === COUNTER ROLL === */
+        .counter-roll {
+            display: inline-block; overflow: hidden; vertical-align: bottom;
+        }
+        .counter-roll-inner {
+            display: inline-block; transition: transform 1.5s cubic-bezier(.4,0,.2,1);
+        }
+
+        /* === PULSE RING ON BADGES === */
+        .badge-ring {
+            position: relative;
+        }
+        .badge-ring::before {
+            content: ''; position: absolute; inset: -6px;
+            border: 2px solid #C9A962; opacity: 0;
+            animation: badgeRing 2.5s ease-in-out infinite;
+        }
+        @keyframes badgeRing {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 0.4; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+
+        /* === SLIDING HIGHLIGHT TEXT === */
+        .text-highlight {
+            background: linear-gradient(90deg, rgba(201,169,98,0.2) 0%, rgba(201,169,98,0.2) 100%);
+            background-size: 0% 100%; background-repeat: no-repeat;
+            background-position: left; transition: background-size 0.8s ease;
+            padding: 2px 0;
+        }
+        .text-highlight.is-active { background-size: 100% 100%; }
+
+        /* === ORBIT ANIMATION for decorative elements === */
+        @keyframes orbit {
+            0% { transform: rotate(0deg) translateX(40px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(40px) rotate(-360deg); }
+        }
+        .orbit-el { animation: orbit 12s linear infinite; }
+
+        /* === SECTION DECORATIVE LINES === */
+        .deco-line-h {
+            height: 2px; background: #C9A962; opacity: 0.15;
+            transform-origin: left; transform: scaleX(0);
+        }
+        .deco-line-h.is-active { transform: scaleX(1); transition: transform 1.5s cubic-bezier(.4,0,.2,1); }
+
+        .deco-line-v {
+            width: 2px; background: #C9A962; opacity: 0.15;
+            transform-origin: top; transform: scaleY(0);
+        }
+        .deco-line-v.is-active { transform: scaleY(1); transition: transform 1.5s cubic-bezier(.4,0,.2,1); }
     </style>
 </head>
 <body class="text-bk">
+
+<!-- SCROLL PROGRESS BAR -->
+<div id="scroll-progress"></div>
 
 <!-- ============ NAV ============ -->
 <nav id="nav" class="fixed top-0 w-full z-50 bg-white brd-b flex justify-between items-stretch">
@@ -266,18 +399,25 @@
 </section>
 
 <!-- ============ SECTION 3 — SITUATION ============ -->
-<section id="s3" class="brd-t brd-b bg-white">
-    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+<section id="s3" class="brd-t brd-b bg-white relative overflow-hidden">
+    <!-- Decorative floating elements -->
+    <div class="geo geo-sq geo-a1 w-16 h-16 hidden md:block" style="top:10%;right:8%;"></div>
+    <div class="geo geo-dot geo-a2 w-5 h-5 hidden md:block" style="top:30%;right:15%;"></div>
+    <div class="geo geo-sq geo-a3 w-10 h-10 hidden md:block" style="bottom:15%;right:5%;transform:rotate(15deg);"></div>
+    <div class="geo geo-dot geo-a1 w-3 h-3 hidden md:block" style="top:50%;right:20%;"></div>
+
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24 relative z-10">
         <div class="flex items-center gap-4 mb-10 reveal">
-            <div class="number-badge">01</div>
+            <div class="number-badge badge-ring">01</div>
             <div>
                 <span class="tag bg-bk text-gold mb-2">Constat</span>
-                <h2 class="font-display font-black text-3xl md:text-4xl">Comment ca se passe aujourd'hui</h2>
+                <h2 class="font-display font-black text-3xl md:text-4xl title-line">Comment ca se passe aujourd'hui</h2>
             </div>
         </div>
-        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
-            <p>Aujourd'hui, tu as une agence qui propose a ses clients des solutions Airtable avec des automatisations. Tes clients viennent te voir parce qu'ils ont besoin de structurer leur activite. Ils veulent un CRM, un suivi de prospection, un pipeline commercial, un calendrier editorial, un systeme de relances, un suivi de projets, bref, des outils qui leur permettent de bosser sans perdre du temps sur des taches repetitives.</p>
-            <p>Le probleme, c'est que chaque projet prend du temps. Pas parce que c'est complique dans l'absolu, mais parce que ca demande de la rigueur. Il faut poser la base Airtable, creer les bonnes tables, les bons champs, les bonnes relations entre les tables. Ensuite il faut creer les vues pour que le client puisse naviguer dans ses donnees sans se perdre. Puis il faut construire les interfaces pour que ce soit agreable a utiliser, pas juste un tableur avec des couleurs. Et enfin, il faut brancher les automatisations pour que les choses se passent toutes seules : les relances, les notifications, les mises a jour de statut, les connexions avec les outils que le client utilise deja.</p>
+        <div class="anim-sep max-w-3xl mb-10"></div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed">
+            <p class="hl-bar stagger-item">Aujourd'hui, tu as une agence qui propose a ses clients des solutions Airtable avec des automatisations. Tes clients viennent te voir parce qu'ils ont besoin de structurer leur activite. Ils veulent un CRM, un suivi de prospection, un pipeline commercial, un calendrier editorial, un systeme de relances, un suivi de projets, bref, des outils qui leur permettent de bosser sans perdre du temps sur des taches repetitives.</p>
+            <p class="hl-bar stagger-item">Le probleme, c'est que chaque projet prend du temps. Pas parce que c'est complique dans l'absolu, mais parce que ca demande de la rigueur. Il faut poser la base Airtable, creer les bonnes tables, les bons champs, les bonnes relations entre les tables. Ensuite il faut creer les vues pour que le client puisse naviguer dans ses donnees sans se perdre. Puis il faut construire les interfaces pour que ce soit agreable a utiliser, pas juste un tableur avec des couleurs. Et enfin, il faut brancher les automatisations pour que les choses se passent toutes seules : les relances, les notifications, les mises a jour de statut, les connexions avec les outils que le client utilise deja.</p>
         </div>
     </div>
 </section>
@@ -314,19 +454,25 @@
 </section>
 
 <!-- ============ SECTION 5 — LA SOLUTION ============ -->
-<section id="s5" class="brd-t">
-    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+<section id="s5" class="brd-t relative overflow-hidden">
+    <div class="geo geo-sq geo-a2 w-20 h-20 hidden md:block" style="top:5%;left:3%;"></div>
+    <div class="geo geo-dot geo-a3 w-4 h-4 hidden md:block" style="top:20%;left:10%;"></div>
+    <div class="geo geo-sq geo-a1 w-8 h-8 hidden md:block" style="bottom:20%;right:6%;transform:rotate(30deg);"></div>
+    <div class="geo geo-dot geo-a2 w-6 h-6 hidden md:block" style="top:60%;right:10%;"></div>
+
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24 relative z-10">
         <div class="flex items-center gap-4 mb-10 reveal">
-            <div class="number-badge">03</div>
+            <div class="number-badge badge-ring">03</div>
             <div>
                 <span class="tag bg-grn text-white mb-2">Solution</span>
-                <h2 class="font-display font-black text-3xl md:text-4xl">Ce que je t'apporte</h2>
+                <h2 class="font-display font-black text-3xl md:text-4xl title-line">Ce que je t'apporte</h2>
             </div>
         </div>
-        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
-            <p>Je vais etre direct. Peu importe le projet Airtable que tu me confies, voila comment ca se passe de mon cote.</p>
-            <p><strong class="text-bk">2 jours pour le build Airtable.</strong> C'est mon temps pour construire toute la base. Les tables, les champs, les formules, les relations, les lookups, les rollups, les vues filtrees, les vues kanban, les vues calendrier, les interfaces. En deux jours, la base est debout, elle est propre, elle est fonctionnelle, le client peut deja naviguer dedans et comprendre comment ca marche.</p>
-            <p><strong class="text-bk">3 jours pour les automatisations.</strong> C'est mon temps pour brancher tout ce qui doit tourner tout seul. Les automations natives Airtable, les scenarios Make ou n8n, les connexions avec les outils tiers du client, les notifications, les relances, les mises a jour automatiques de statut, les envois de mails, les creations de dossiers, les synchronisations. En trois jours, tout est cable, teste, et ca tourne.</p>
+        <div class="anim-sep max-w-3xl mb-10"></div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed">
+            <p class="stagger-item">Je vais etre direct. Peu importe le projet Airtable que tu me confies, voila comment ca se passe de mon cote.</p>
+            <p class="hl-bar stagger-item"><strong class="text-bk text-highlight">2 jours pour le build Airtable.</strong> C'est mon temps pour construire toute la base. Les tables, les champs, les formules, les relations, les lookups, les rollups, les vues filtrees, les vues kanban, les vues calendrier, les interfaces. En deux jours, la base est debout, elle est propre, elle est fonctionnelle, le client peut deja naviguer dedans et comprendre comment ca marche.</p>
+            <p class="hl-bar stagger-item"><strong class="text-bk text-highlight">3 jours pour les automatisations.</strong> C'est mon temps pour brancher tout ce qui doit tourner tout seul. Les automations natives Airtable, les scenarios Make ou n8n, les connexions avec les outils tiers du client, les notifications, les relances, les mises a jour automatiques de statut, les envois de mails, les creations de dossiers, les synchronisations. En trois jours, tout est cable, teste, et ca tourne.</p>
         </div>
         <div class="brut-gold p-8 md:p-12 max-w-3xl mt-10 pulse-border reveal">
             <p class="text-2xl md:text-3xl font-display font-bold leading-relaxed text-bk"><span class="text-gold">5 jours au total.</span> Peu importe le projet.</p>
@@ -382,39 +528,85 @@
 </section>
 
 <!-- ============ SECTION 8 — JOUR 1 ============ -->
-<section id="s8" class="brd-b">
-    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+<section id="s8" class="brd-b relative overflow-hidden">
+    <div class="geo geo-sq geo-a3 w-14 h-14 hidden md:block" style="top:8%;right:6%;"></div>
+    <div class="geo geo-dot geo-a1 w-4 h-4 hidden md:block" style="top:35%;right:12%;"></div>
+    <div class="geo geo-sq geo-a2 w-10 h-10 hidden md:block" style="bottom:10%;right:4%;transform:rotate(25deg);"></div>
+
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24 relative z-10">
         <div class="flex items-center gap-4 mb-10 reveal">
-            <div class="number-badge">05</div>
+            <div class="number-badge badge-ring">05</div>
             <div>
                 <span class="tag bg-blu text-white mb-2">Jour 1</span>
-                <h2 class="font-display font-black text-3xl md:text-4xl">La structure</h2>
+                <h2 class="font-display font-black text-3xl md:text-4xl title-line">La structure</h2>
             </div>
         </div>
-        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
-            <p>Le premier jour, je pose les fondations. C'est la partie qui n'est pas visible pour le client mais qui fait que tout tient debout derriere.</p>
-            <p>Je commence par creer les tables. En general, un projet client a entre 3 et 8 tables selon la complexite. Un CRM classique, c'est une table Contacts, une table Entreprises, une table Deals, une table Activites, une table Produits ou Services. Un calendrier editorial, c'est une table Contenus, une table Plateformes, une table Campagnes. Un suivi de prospection, c'est une table Prospects, une table Relances, une table Setters, une table Rendez-vous.</p>
-            <p>Ensuite je cree les champs. Chaque champ a son type, son format, ses options. Les champs texte, les champs date, les champs single select avec toutes les valeurs, les champs multi-select, les champs formule, les champs lookup qui vont chercher des infos dans une autre table, les champs rollup qui font des calculs sur les enregistrements lies. C'est la que la base prend forme. Un champ mal type ou une formule mal ecrite, ca casse tout le reste. Donc je fais ca proprement.</p>
-            <p>Je cree aussi les relations entre les tables. C'est ce qui fait qu'un contact est rattache a une entreprise, qu'un deal est rattache a un contact, qu'une relance est rattachee a un prospect. Sans ces liens, c'est juste des tableurs separes. Avec ces liens, c'est un vrai systeme ou tout est connecte.</p>
+        <div class="anim-sep max-w-3xl mb-10"></div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed">
+            <p class="stagger-item">Le premier jour, je pose les fondations. C'est la partie qui n'est pas visible pour le client mais qui fait que tout tient debout derriere.</p>
+            <p class="hl-bar stagger-item">Je commence par creer les tables. En general, un projet client a entre 3 et 8 tables selon la complexite. Un CRM classique, c'est une table Contacts, une table Entreprises, une table Deals, une table Activites, une table Produits ou Services. Un calendrier editorial, c'est une table Contenus, une table Plateformes, une table Campagnes. Un suivi de prospection, c'est une table Prospects, une table Relances, une table Setters, une table Rendez-vous.</p>
+            <p class="hl-bar stagger-item">Ensuite je cree les champs. Chaque champ a son type, son format, ses options. Les champs texte, les champs date, les champs single select avec toutes les valeurs, les champs multi-select, les champs formule, les champs lookup qui vont chercher des infos dans une autre table, les champs rollup qui font des calculs sur les enregistrements lies. C'est la que la base prend forme. Un champ mal type ou une formule mal ecrite, ca casse tout le reste. Donc je fais ca proprement.</p>
+            <p class="hl-bar stagger-item">Je cree aussi les relations entre les tables. C'est ce qui fait qu'un contact est rattache a une entreprise, qu'un deal est rattache a un contact, qu'une relance est rattachee a un prospect. Sans ces liens, c'est juste des tableurs separes. <strong class="text-bk text-highlight">Avec ces liens, c'est un vrai systeme ou tout est connecte.</strong></p>
+        </div>
+
+        <!-- Animated visual: table relationship schema -->
+        <div class="max-w-md mt-12 reveal">
+            <div class="grid grid-cols-3 gap-3">
+                <div class="brut p-3 text-center stagger-item"><div class="font-mono text-[0.65rem] font-bold">Contacts</div></div>
+                <div class="brut p-3 text-center stagger-item"><div class="font-mono text-[0.65rem] font-bold">Entreprises</div></div>
+                <div class="brut p-3 text-center stagger-item"><div class="font-mono text-[0.65rem] font-bold">Deals</div></div>
+                <div class="brut p-3 text-center stagger-item"><div class="font-mono text-[0.65rem] font-bold">Activites</div></div>
+                <div class="brut p-3 text-center stagger-item"><div class="font-mono text-[0.65rem] font-bold">Relances</div></div>
+                <div class="brut p-3 text-center stagger-item bg-gold/10" style="border-color:#C9A962;"><div class="font-mono text-[0.65rem] font-bold text-gold">Relations</div></div>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- ============ SECTION 9 — JOUR 2 ============ -->
-<section id="s9" class="bg-gry brd-b">
-    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+<section id="s9" class="bg-gry brd-b relative overflow-hidden">
+    <div class="geo geo-sq geo-a1 w-12 h-12 hidden md:block" style="top:12%;left:4%;transform:rotate(10deg);"></div>
+    <div class="geo geo-dot geo-a3 w-5 h-5 hidden md:block" style="bottom:20%;left:8%;"></div>
+
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24 relative z-10">
         <div class="flex items-center gap-4 mb-10 reveal">
-            <div class="number-badge">06</div>
+            <div class="number-badge badge-ring">06</div>
             <div>
                 <span class="tag bg-blu text-white mb-2">Jour 2</span>
-                <h2 class="font-display font-black text-3xl md:text-4xl">Les vues et les interfaces</h2>
+                <h2 class="font-display font-black text-3xl md:text-4xl title-line">Les vues et les interfaces</h2>
             </div>
         </div>
-        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
-            <p>Le deuxieme jour, c'est la partie visible. C'est ce que le client va utiliser tous les jours.</p>
-            <p>Je cree les vues. Chaque table peut avoir plusieurs vues. Une vue kanban pour le pipeline commercial ou chaque colonne est un statut. Une vue calendrier pour voir les contenus planifies sur un mois. Une vue liste filtree pour voir uniquement les relances du jour. Une vue galerie pour voir les fiches avec des photos. Chaque vue a ses filtres, ses tris, ses regroupements, ses champs visibles. Le client ne voit que ce dont il a besoin, pas tout le reste.</p>
-            <p>Ensuite je construis les interfaces Airtable. C'est la couche par-dessus les vues qui rend tout agreable. Au lieu de naviguer dans un tableur, le client a un vrai tableau de bord. Il voit ses chiffres cles en haut, son pipeline au milieu, ses taches en cours sur le cote. Il peut cliquer sur un element pour ouvrir la fiche, modifier un champ directement depuis l'interface, passer un statut d'un clic. C'est propre, c'est clair, le client comprend tout de suite ou il est et ce qu'il doit faire.</p>
-            <p>A la fin du jour 2, la base est prete. Le client peut deja l'ouvrir, naviguer, comprendre la logique. Il manque juste les automatisations pour que ca tourne tout seul.</p>
+        <div class="anim-sep max-w-3xl mb-10"></div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed">
+            <p class="stagger-item">Le deuxieme jour, c'est la partie visible. C'est ce que le client va utiliser tous les jours.</p>
+            <p class="hl-bar stagger-item">Je cree les vues. Chaque table peut avoir plusieurs vues. Une vue kanban pour le pipeline commercial ou chaque colonne est un statut. Une vue calendrier pour voir les contenus planifies sur un mois. Une vue liste filtree pour voir uniquement les relances du jour. Une vue galerie pour voir les fiches avec des photos. Chaque vue a ses filtres, ses tris, ses regroupements, ses champs visibles. Le client ne voit que ce dont il a besoin, pas tout le reste.</p>
+            <p class="hl-bar stagger-item">Ensuite je construis les interfaces Airtable. C'est la couche par-dessus les vues qui rend tout agreable. Au lieu de naviguer dans un tableur, le client a un vrai tableau de bord. Il voit ses chiffres cles en haut, son pipeline au milieu, ses taches en cours sur le cote. Il peut cliquer sur un element pour ouvrir la fiche, modifier un champ directement depuis l'interface, passer un statut d'un clic. <strong class="text-bk text-highlight">C'est propre, c'est clair, le client comprend tout de suite ou il est et ce qu'il doit faire.</strong></p>
+            <p class="stagger-item">A la fin du jour 2, la base est prete. Le client peut deja l'ouvrir, naviguer, comprendre la logique. Il manque juste les automatisations pour que ca tourne tout seul.</p>
+        </div>
+
+        <!-- Mini kanban visual -->
+        <div class="max-w-lg mt-12 reveal">
+            <div class="font-mono text-[0.6rem] text-bk/40 uppercase tracking-wider mb-3">Apercu — Vue Kanban</div>
+            <div class="grid grid-cols-4 gap-2">
+                <div class="space-y-2">
+                    <div class="bg-bk/10 p-2 text-center font-mono text-[0.6rem] font-bold">Nouveau</div>
+                    <div class="brut p-2 stagger-item" style="box-shadow:2px 2px 0 0 #1a1a1a;"><div class="w-full h-2 bg-bk/20 rounded-sm mb-1"></div><div class="w-3/4 h-2 bg-bk/10 rounded-sm"></div></div>
+                    <div class="brut p-2 stagger-item" style="box-shadow:2px 2px 0 0 #1a1a1a;"><div class="w-full h-2 bg-bk/20 rounded-sm mb-1"></div><div class="w-1/2 h-2 bg-bk/10 rounded-sm"></div></div>
+                </div>
+                <div class="space-y-2">
+                    <div class="bg-blu/20 p-2 text-center font-mono text-[0.6rem] font-bold text-blu">En cours</div>
+                    <div class="brut p-2 stagger-item" style="box-shadow:2px 2px 0 0 #1a1a1a;"><div class="w-full h-2 bg-blu/30 rounded-sm mb-1"></div><div class="w-2/3 h-2 bg-blu/15 rounded-sm"></div></div>
+                </div>
+                <div class="space-y-2">
+                    <div class="bg-gold/20 p-2 text-center font-mono text-[0.6rem] font-bold text-gold">Review</div>
+                    <div class="brut p-2 stagger-item" style="box-shadow:2px 2px 0 0 #1a1a1a;"><div class="w-full h-2 bg-gold/30 rounded-sm mb-1"></div><div class="w-3/4 h-2 bg-gold/15 rounded-sm"></div></div>
+                    <div class="brut p-2 stagger-item" style="box-shadow:2px 2px 0 0 #1a1a1a;"><div class="w-full h-2 bg-gold/30 rounded-sm mb-1"></div><div class="w-1/2 h-2 bg-gold/15 rounded-sm"></div></div>
+                </div>
+                <div class="space-y-2">
+                    <div class="bg-grn/20 p-2 text-center font-mono text-[0.6rem] font-bold text-grn">Termine</div>
+                    <div class="brut p-2 stagger-item" style="box-shadow:2px 2px 0 0 #C9A962;border-color:#C9A962;"><div class="w-full h-2 bg-grn/30 rounded-sm mb-1"></div><div class="w-2/3 h-2 bg-grn/15 rounded-sm"></div></div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -492,21 +684,38 @@
                 <h2 class="font-display font-black text-3xl md:text-4xl">Automations natives Airtable</h2>
             </div>
         </div>
-        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
-            <p>C'est la que la base prend vie. Sans automatisations, le client doit tout faire a la main. Avec, les choses se font toutes seules.</p>
-            <p>Le troisieme jour, je commence par les automations qui vivent directement dans Airtable. C'est les plus simples a mettre en place mais les plus utilisees au quotidien.</p>
-            <p>Par exemple : quand un prospect passe au statut "Rendez-vous pris", la date du changement se remplit automatiquement, le setter recoit une notification, et le responsable commercial voit la fiche remonter dans sa vue prioritaire.</p>
-            <p>Autre exemple : quand un contenu passe au statut "Publie", la date de publication reelle se remplit avec la date du jour, le responsable recoit un mail de confirmation, et la fiche sort automatiquement de la vue "a publier" pour aller dans la vue "publie".</p>
-            <p>Ce sont des petites actions qui, mises bout a bout, font gagner des dizaines de minutes par jour au client. Et surtout, ca evite les oublis. Un humain oublie de cocher une case, de mettre a jour un champ, de prevenir un collegue. <strong class="text-bk">L'automation, elle, ne loupe jamais.</strong></p>
+        <div class="anim-sep max-w-3xl mb-10"></div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed">
+            <p class="stagger-item">C'est la que la base prend vie. Sans automatisations, le client doit tout faire a la main. Avec, les choses se font toutes seules.</p>
+            <p class="hl-bar stagger-item">Le troisieme jour, je commence par les automations qui vivent directement dans Airtable. C'est les plus simples a mettre en place mais les plus utilisees au quotidien.</p>
+            <p class="hl-bar stagger-item">Par exemple : quand un prospect passe au statut <strong class="text-bk text-highlight">"Rendez-vous pris"</strong>, la date du changement se remplit automatiquement, le setter recoit une notification, et le responsable commercial voit la fiche remonter dans sa vue prioritaire.</p>
+            <p class="hl-bar stagger-item">Autre exemple : quand un contenu passe au statut <strong class="text-bk text-highlight">"Publie"</strong>, la date de publication reelle se remplit avec la date du jour, le responsable recoit un mail de confirmation, et la fiche sort automatiquement de la vue "a publier" pour aller dans la vue "publie".</p>
+            <p class="stagger-item">Ce sont des petites actions qui, mises bout a bout, font gagner des dizaines de minutes par jour au client. Et surtout, ca evite les oublis. Un humain oublie de cocher une case, de mettre a jour un champ, de prevenir un collegue. <strong class="text-bk">L'automation, elle, ne loupe jamais.</strong></p>
+        </div>
+
+        <!-- Automation flow visual -->
+        <div class="max-w-2xl mt-12 reveal">
+            <div class="font-mono text-[0.6rem] text-bk/40 uppercase tracking-wider mb-3">Flux — Automation native</div>
+            <div class="flex items-center gap-2 flex-wrap">
+                <div class="brut p-3 text-center stagger-item" style="box-shadow:3px 3px 0 0 #1a1a1a;"><div class="font-mono text-[0.6rem] font-bold">Trigger</div><div class="font-mono text-[0.55rem] text-bk/40 mt-1">Statut change</div></div>
+                <div class="font-mono text-gold text-lg stagger-item">&rarr;</div>
+                <div class="brut p-3 text-center stagger-item" style="box-shadow:3px 3px 0 0 #1a1a1a;"><div class="font-mono text-[0.6rem] font-bold">Action 1</div><div class="font-mono text-[0.55rem] text-bk/40 mt-1">Date auto</div></div>
+                <div class="font-mono text-gold text-lg stagger-item">&rarr;</div>
+                <div class="brut p-3 text-center stagger-item" style="box-shadow:3px 3px 0 0 #1a1a1a;"><div class="font-mono text-[0.6rem] font-bold">Action 2</div><div class="font-mono text-[0.55rem] text-bk/40 mt-1">Notification</div></div>
+                <div class="font-mono text-gold text-lg stagger-item">&rarr;</div>
+                <div class="brut p-3 text-center stagger-item bg-gold/10" style="box-shadow:3px 3px 0 0 #C9A962;border-color:#C9A962;"><div class="font-mono text-[0.6rem] font-bold text-gold">Done</div><div class="font-mono text-[0.55rem] text-bk/40 mt-1">Vue mise a jour</div></div>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- ============ SECTION 13 — JOUR 4 ============ -->
-<section id="s13" class="bg-gry brd-b">
-    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+<section id="s13" class="bg-gry brd-b relative overflow-hidden">
+    <div class="geo geo-sq geo-a2 w-16 h-16 hidden md:block" style="top:5%;right:5%;transform:rotate(15deg);"></div>
+    <div class="geo geo-dot geo-a1 w-4 h-4 hidden md:block" style="top:40%;right:10%;"></div>
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24 relative z-10">
         <div class="flex items-center gap-4 mb-10 reveal">
-            <div class="number-badge">09</div>
+            <div class="number-badge badge-ring">09</div>
             <div>
                 <span class="tag bg-gold text-bk mb-2">Jour 4</span>
                 <h2 class="font-display font-black text-3xl md:text-4xl">Scenarios Make ou n8n</h2>
@@ -979,20 +1188,40 @@
 </section>
 
 <!-- ============ SECTION 25 — QUELQUES MOTS SUR MOI ============ -->
-<section id="s25" class="brd-b">
-    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+<section id="s25" class="brd-b relative overflow-hidden">
+    <div class="geo geo-sq geo-a2 w-20 h-20 hidden md:block" style="top:8%;right:5%;"></div>
+    <div class="geo geo-dot geo-a1 w-6 h-6 hidden md:block" style="bottom:15%;right:12%;"></div>
+    <div class="geo geo-sq geo-a3 w-8 h-8 hidden md:block" style="top:50%;right:3%;transform:rotate(20deg);"></div>
+
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24 relative z-10">
         <div class="flex items-center gap-4 mb-10 reveal">
-            <div class="number-badge">20</div>
+            <div class="number-badge badge-ring">20</div>
             <div>
                 <span class="tag bg-bk text-white mb-2">A propos</span>
-                <h2 class="font-display font-black text-3xl md:text-4xl">Quelques mots sur moi</h2>
+                <h2 class="font-display font-black text-3xl md:text-4xl title-line">Quelques mots sur moi</h2>
             </div>
         </div>
-        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
-            <p>Je vais pas te faire un CV long comme le bras. Je te fais le resume.</p>
-            <p>Je construis des bases Airtable et des automatisations depuis suffisamment longtemps pour avoir developpe une methode qui fonctionne. J'ai fait des CRM, des pipelines commerciaux, des outils de gestion de contenu, des systemes de relance, des tableaux de bord, des outils de suivi de projet, des automatisations avec Make, n8n, des connexions API. J'ai vu pas mal de cas differents et a chaque fois, le schema est le meme : comprendre le besoin, structurer la base, construire les vues, brancher les automations, tester, livrer.</p>
-            <p>C'est pour ca que le temps est fixe. Pas parce que je bacle, mais parce que j'ai fait ca suffisamment de fois pour savoir combien de temps chaque etape prend. Les 2 jours de build, c'est pas 2 jours ou je decouvre Airtable. <strong class="text-bk">C'est 2 jours ou j'execute une methode que je connais par coeur.</strong></p>
-            <p>Ce qui m'interesse dans une collaboration avec ton agence, c'est le volume et la regularite. Toi tu as les clients, tu geres la relation, le commercial, le suivi. Moi je fais le build et les automations. On fait chacun ce qu'on sait faire. C'est simple et ca peut durer longtemps si le courant passe bien.</p>
+        <div class="anim-sep max-w-3xl mb-10"></div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed">
+            <p class="stagger-item">Je vais pas te faire un CV long comme le bras. Je te fais le resume.</p>
+            <p class="hl-bar stagger-item">Je construis des bases Airtable et des automatisations depuis suffisamment longtemps pour avoir developpe une methode qui fonctionne. J'ai fait des CRM, des pipelines commerciaux, des outils de gestion de contenu, des systemes de relance, des tableaux de bord, des outils de suivi de projet, des automatisations avec Make, n8n, des connexions API. J'ai vu pas mal de cas differents et a chaque fois, le schema est le meme : comprendre le besoin, structurer la base, construire les vues, brancher les automations, tester, livrer.</p>
+            <p class="hl-bar stagger-item">C'est pour ca que le temps est fixe. Pas parce que je bacle, mais parce que j'ai fait ca suffisamment de fois pour savoir combien de temps chaque etape prend. Les 2 jours de build, c'est pas 2 jours ou je decouvre Airtable. <strong class="text-bk text-highlight">C'est 2 jours ou j'execute une methode que je connais par coeur.</strong></p>
+            <p class="stagger-item">Ce qui m'interesse dans une collaboration avec ton agence, c'est le volume et la regularite. Toi tu as les clients, tu geres la relation, le commercial, le suivi. Moi je fais le build et les automations. On fait chacun ce qu'on sait faire. C'est simple et ca peut durer longtemps si le courant passe bien.</p>
+        </div>
+
+        <!-- Method visual -->
+        <div class="flex flex-wrap gap-3 mt-10 reveal">
+            <div class="state-pill bg-white stagger-item"><div class="state-dot bg-bk"></div> Comprendre</div>
+            <div class="font-mono text-bk/30 flex items-center">&rarr;</div>
+            <div class="state-pill bg-white stagger-item"><div class="state-dot bg-blu"></div> Structurer</div>
+            <div class="font-mono text-bk/30 flex items-center">&rarr;</div>
+            <div class="state-pill bg-white stagger-item"><div class="state-dot bg-gold"></div> Construire</div>
+            <div class="font-mono text-bk/30 flex items-center">&rarr;</div>
+            <div class="state-pill bg-white stagger-item"><div class="state-dot bg-blu"></div> Brancher</div>
+            <div class="font-mono text-bk/30 flex items-center">&rarr;</div>
+            <div class="state-pill bg-white stagger-item"><div class="state-dot bg-grn"></div> Tester</div>
+            <div class="font-mono text-bk/30 flex items-center">&rarr;</div>
+            <div class="state-pill bg-white stagger-item" style="border-color:#C9A962;"><div class="state-dot bg-gold"></div> <strong>Livrer</strong></div>
         </div>
     </div>
 </section>
@@ -1094,19 +1323,39 @@
 </section>
 
 <!-- ============ SECTION 29 — PROCHAINE ETAPE ============ -->
-<section id="s29" class="brd-b">
-    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+<section id="s29" class="brd-b relative overflow-hidden">
+    <div class="geo geo-sq geo-a1 w-16 h-16 hidden md:block" style="top:10%;right:6%;"></div>
+    <div class="geo geo-dot geo-a3 w-5 h-5 hidden md:block" style="bottom:20%;right:15%;"></div>
+
+    <div class="max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24 relative z-10">
         <div class="flex items-center gap-4 mb-10 reveal">
-            <div class="number-badge">24</div>
+            <div class="number-badge badge-ring">24</div>
             <div>
                 <span class="tag bg-grn text-white mb-2">Next</span>
-                <h2 class="font-display font-black text-3xl md:text-4xl">Prochaine etape</h2>
+                <h2 class="font-display font-black text-3xl md:text-4xl title-line">Prochaine etape</h2>
             </div>
         </div>
-        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed reveal">
-            <p>Si ca te parle, la prochaine etape c'est simple. On se fait un call de 20-30 minutes, tu me presentes un premier projet client, et je te montre comment je le decouplerais en 5 jours. Comme ca tu vois ma facon de raisonner, et on decide ensemble si on part.</p>
-            <p>Pas d'engagement long terme au debut. On fait un premier projet, tu vois comment ca se passe, tu vois la qualite, tu vois le delai. Si t'es content, on continue. Si t'es pas content, pas de souci, on se serre la main et chacun reprend sa route.</p>
-            <p>Mais je pense que ca peut bien marcher entre nous. Tu as le volume, tu as les clients, et moi j'ai la capacite de livrer vite et proprement. <strong class="text-bk">C'est une bonne combinaison.</strong></p>
+        <div class="anim-sep max-w-3xl mb-10"></div>
+        <div class="max-w-3xl space-y-6 text-base md:text-lg text-bk/75 leading-relaxed">
+            <p class="hl-bar stagger-item">Si ca te parle, la prochaine etape c'est simple. On se fait un call de 20-30 minutes, tu me presentes un premier projet client, et je te montre comment je le decouplerais en 5 jours. Comme ca tu vois ma facon de raisonner, et on decide ensemble si on part.</p>
+            <p class="stagger-item">Pas d'engagement long terme au debut. On fait un premier projet, tu vois comment ca se passe, tu vois la qualite, tu vois le delai. Si t'es content, on continue. Si t'es pas content, pas de souci, on se serre la main et chacun reprend sa route.</p>
+            <p class="stagger-item">Mais je pense que ca peut bien marcher entre nous. Tu as le volume, tu as les clients, et moi j'ai la capacite de livrer vite et proprement. <strong class="text-bk text-highlight">C'est une bonne combinaison.</strong></p>
+        </div>
+
+        <!-- Next steps visual -->
+        <div class="max-w-md mt-12 space-y-3 reveal">
+            <div class="brut p-4 flex items-center gap-4 stagger-item">
+                <div class="number-badge w-[32px] h-[32px] text-xs" style="background:#C9A962;color:#1a1a1a;">1</div>
+                <span class="text-sm font-medium">Call de 20-30 minutes</span>
+            </div>
+            <div class="brut p-4 flex items-center gap-4 stagger-item">
+                <div class="number-badge w-[32px] h-[32px] text-xs" style="background:#C9A962;color:#1a1a1a;">2</div>
+                <span class="text-sm font-medium">Premier projet test</span>
+            </div>
+            <div class="brut p-4 flex items-center gap-4 stagger-item bg-gold/5" style="border-color:#C9A962;box-shadow:5px 5px 0 0 #C9A962;">
+                <div class="number-badge w-[32px] h-[32px] text-xs" style="background:#C9A962;color:#1a1a1a;">3</div>
+                <span class="text-sm font-medium text-gold">Collaboration long terme</span>
+            </div>
         </div>
     </div>
 </section>
@@ -1138,6 +1387,15 @@
 <!-- ============ SCRIPTS ============ -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+    // === SCROLL PROGRESS BAR ===
+    const progressBar = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        progressBar.style.width = progress + '%';
+    });
+
     // === GSAP ScrollTrigger Reveals ===
     gsap.registerPlugin(ScrollTrigger);
 
@@ -1152,6 +1410,76 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         );
+    });
+
+    // === STAGGER ITEMS (slide in from left) ===
+    gsap.utils.toArray('.stagger-item').forEach((el, i) => {
+        gsap.fromTo(el,
+            { opacity: 0, x: -30 },
+            {
+                opacity: 1, x: 0, duration: 0.7,
+                delay: i % 6 * 0.12,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: el, start: 'top 90%', toggleActions: 'play none none none'
+                }
+            }
+        );
+    });
+
+    // === STAGGER ITEMS RIGHT ===
+    gsap.utils.toArray('.stagger-item-r').forEach((el, i) => {
+        gsap.fromTo(el,
+            { opacity: 0, x: 30 },
+            {
+                opacity: 1, x: 0, duration: 0.7,
+                delay: i % 6 * 0.12,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: el, start: 'top 90%', toggleActions: 'play none none none'
+                }
+            }
+        );
+    });
+
+    // === TITLE UNDERLINE ANIMATION ===
+    gsap.utils.toArray('.title-line').forEach(el => {
+        ScrollTrigger.create({
+            trigger: el, start: 'top 85%',
+            onEnter: () => el.classList.add('is-active')
+        });
+    });
+
+    // === HIGHLIGHT BAR ANIMATION ===
+    gsap.utils.toArray('.hl-bar').forEach(el => {
+        ScrollTrigger.create({
+            trigger: el, start: 'top 85%',
+            onEnter: () => el.classList.add('is-active')
+        });
+    });
+
+    // === ANIMATED SEPARATOR ===
+    gsap.utils.toArray('.anim-sep').forEach(el => {
+        ScrollTrigger.create({
+            trigger: el, start: 'top 88%',
+            onEnter: () => el.classList.add('is-active')
+        });
+    });
+
+    // === TEXT HIGHLIGHT (sliding background) ===
+    gsap.utils.toArray('.text-highlight').forEach(el => {
+        ScrollTrigger.create({
+            trigger: el, start: 'top 88%',
+            onEnter: () => el.classList.add('is-active')
+        });
+    });
+
+    // === DECO LINES ===
+    gsap.utils.toArray('.deco-line-h, .deco-line-v').forEach(el => {
+        ScrollTrigger.create({
+            trigger: el, start: 'top 90%',
+            onEnter: () => el.classList.add('is-active')
+        });
     });
 
     // === Table of Contents Generation ===
